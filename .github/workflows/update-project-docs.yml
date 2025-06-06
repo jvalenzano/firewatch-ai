@@ -1,0 +1,44 @@
+name: Update Project Documentation
+
+on:
+  issues:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Update project metrics
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get repository statistics
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              per_page: 100
+            });
+            
+            // Calculate metrics
+            const totalIssues = issues.length;
+            const openIssues = issues.filter(issue => issue.state === 'open').length;
+            const closedIssues = issues.filter(issue => issue.state === 'closed').length;
+            
+            const labelCounts = {};
+            issues.forEach(issue => {
+              issue.labels.forEach(label => {
+                labelCounts[label.name] = (labelCounts[label.name] || 0) + 1;
+              });
+            });
+            
+            console.log('📊 Project Metrics:');
+            console.log(`Total Issues: ${totalIssues}`);
+            console.log(`Open Issues: ${openIssues}`);
+            console.log(`Closed Issues: ${closedIssues}`);
+            console.log('Label Distribution:', labelCounts);

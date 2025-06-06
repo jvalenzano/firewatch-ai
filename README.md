@@ -10,7 +10,7 @@ The RisenOne Fire Analysis Agent represents a collaborative effort between **Tec
 
 <div align="center">
 
-[![Multi-Agent Architecture](https://img.shields.io/badge/🤖_Multi--Agent_Architecture-Interactive_Diagram-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_mas_architecture.html)
+[![Multi-Agent Architecture](https://img.shields.io/badge/🤖_Multi--Agent_Architecture-Agent_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_mas_architecture.html)
 
 [![AWS-GCP Integration](https://img.shields.io/badge/🌉_AWS--GCP_Integration-Hybrid_Architecture-4285f4?style=for-the-badge&logo=googlecloud)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_integration_architecture.html)
 

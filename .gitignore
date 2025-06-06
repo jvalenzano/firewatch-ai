@@ -14,3 +14,10 @@ local/
 handoff/
 *.local.*
 .dev.*
+
+# ADK Configuration
+agent/.env
+activate_env.sh
+agent/activate_env.sh
+activate_env.sh
+agent/activate_env.sh

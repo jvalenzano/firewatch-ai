@@ -32,15 +32,35 @@ print_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-# Step 1: Verify Prerequisites
-print_step "Step 1: Checking Prerequisites..."
+# Step 0: Environment Validation
+print_step "Step 0: Validating Environment..."
 
-# Check if we're in the right directory
-if [[ ! -f "pyproject.toml" ]] || [[ ! -d "data_science" ]]; then
-    print_error "Must run from the data-science directory"
-    echo "Expected path: risenone-ai-prototype/adk-samples/python/agents/data-science"
+# Check if we're in the correct repository structure
+if [[ ! -d "agent" ]] || [[ ! -f "setup-risenone.sh" ]]; then
+    print_error "Not in risenone-fire-analysis-agent root directory"
+    print_error "Expected structure:"
+    echo "  risenone-fire-analysis-agent/"
+    echo "  ├── agent/"
+    echo "  ├── setup-risenone.sh"
+    echo "  └── setup-risenone.ps1"
     exit 1
 fi
+
+# Check agent directory structure
+if [[ ! -f "agent/pyproject.toml" ]] || [[ ! -d "agent/data_science" ]]; then
+    print_error "Missing agent/pyproject.toml or agent/data_science/ folder"
+    print_error "Expected agent directory structure:"
+    echo "  agent/"
+    echo "  ├── pyproject.toml"
+    echo "  ├── data_science/"
+    echo "  └── .env (or .env-example)"
+    exit 1
+fi
+
+print_success "Environment validation passed"
+
+# Step 1: Prerequisites Check
+print_step "Step 1: Checking Prerequisites..."
 
 # Check Poetry
 if ! command -v poetry &> /dev/null; then
@@ -55,18 +75,22 @@ if ! command -v gcloud &> /dev/null; then
     exit 1
 fi
 
-# Check Python version
-PYTHON_VERSION=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-REQUIRED_VERSION="3.12"
-if [[ $(echo "$PYTHON_VERSION >= $REQUIRED_VERSION" | bc -l) -eq 0 ]]; then
-    print_warning "Python $PYTHON_VERSION found. Recommended: Python $REQUIRED_VERSION+"
-    echo "Attempting to use Poetry's Python management..."
-fi
+# Check Python versions available
+echo "Available Python versions:"
+for py_cmd in python3.12 python3.13 python3 python; do
+    if command -v $py_cmd &> /dev/null; then
+        version=$($py_cmd --version 2>&1)
+        echo "  Found: $py_cmd -> $version"
+    fi
+done
 
 print_success "Prerequisites check passed"
 
 # Step 2: Poetry Environment Setup
 print_step "Step 2: Setting up Poetry Environment..."
+
+# Change to agent directory for all Poetry operations
+cd agent
 
 # Ensure we use Python 3.12+ if available
 if command -v python3.12 &> /dev/null; then
@@ -76,6 +100,7 @@ elif command -v python3.13 &> /dev/null; then
     poetry env use python3.13
     print_success "Using Python 3.13"
 else
+    PYTHON_VERSION=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
     print_warning "Using system Python $PYTHON_VERSION"
     poetry env use python3
 fi
@@ -88,7 +113,8 @@ poetry install
 VENV_PATH=$(poetry env info --path)
 print_success "Virtual environment: $VENV_PATH"
 
-# Create activation helper
+# Create activation helper in root directory
+cd ..
 echo "Creating environment activation helper..."
 cat > activate_env.sh << EOF
 #!/bin/bash
@@ -98,6 +124,8 @@ source "$VENV_PATH/bin/activate"
 echo "🐍 RisenOne environment activated"
 echo "Python: \$(which python)"
 echo "Version: \$(python --version)"
+echo ""
+echo "To launch agent: cd agent && adk web"
 EOF
 chmod +x activate_env.sh
 
@@ -106,26 +134,26 @@ print_success "Poetry environment configured"
 # Step 3: Environment Configuration
 print_step "Step 3: Checking Environment Configuration..."
 
-# Check .env file
-if [[ ! -f ".env" ]]; then
-    print_warning ".env file not found"
-    if [[ -f ".env-example" ]]; then
-        echo "Creating .env from .env-example..."
-        cp .env-example .env
-        print_warning "Please edit .env file with your configuration"
+# Check .env file in agent directory
+if [[ ! -f "agent/.env" ]]; then
+    print_warning "agent/.env file not found"
+    if [[ -f "agent/.env-example" ]]; then
+        echo "Creating agent/.env from agent/.env-example..."
+        cp agent/.env-example agent/.env
+        print_warning "Please edit agent/.env file with your configuration"
     else
-        print_error "No .env or .env-example file found"
+        print_error "No agent/.env or agent/.env-example file found"
         exit 1
     fi
 fi
 
 # Verify key environment variables
-if ! grep -q "GOOGLE_CLOUD_PROJECT.*risenone-ai-prototype" .env; then
-    print_warning "Verify GOOGLE_CLOUD_PROJECT in .env file"
+if ! grep -q "GOOGLE_CLOUD_PROJECT" agent/.env; then
+    print_warning "GOOGLE_CLOUD_PROJECT not found in agent/.env"
 fi
 
-if ! grep -q "GOOGLE_GENAI_USE_VERTEXAI.*1" .env; then
-    print_warning "Verify GOOGLE_GENAI_USE_VERTEXAI=1 in .env file"
+if ! grep -q "GOOGLE_GENAI_USE_VERTEXAI.*1" agent/.env; then
+    print_warning "Verify GOOGLE_GENAI_USE_VERTEXAI=1 in agent/.env"
 fi
 
 print_success "Environment configuration checked"
@@ -148,9 +176,14 @@ else
     gcloud auth application-default login \
         --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/bigquery
 
-    # Set quota project
-    echo "Setting quota project..."
-    gcloud auth application-default set-quota-project risenone-ai-prototype
+    # Set quota project from .env file
+    PROJECT_ID=$(grep "GOOGLE_CLOUD_PROJECT" agent/.env | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+    if [[ -n "$PROJECT_ID" ]]; then
+        echo "Setting quota project to: $PROJECT_ID"
+        gcloud auth application-default set-quota-project "$PROJECT_ID"
+    else
+        print_warning "Could not determine project ID from agent/.env"
+    fi
 
     # Verify authentication
     echo "Verifying authentication..."
@@ -169,6 +202,7 @@ print_step "Step 5: Final Setup and Testing..."
 
 # Activate environment for testing
 source "$VENV_PATH/bin/activate"
+cd agent
 
 # Test basic imports
 echo "Testing Python environment..."
@@ -184,17 +218,28 @@ python -c "import google.cloud.bigquery; print('✅ BigQuery import successful')
 
 print_success "Python environment test passed"
 
-# Create quick test script
+# Create quick test script in root
+cd ..
 cat > test_agent.py << 'EOF'
 #!/usr/bin/env python3
 """Quick test script for RisenOne agent"""
 import subprocess
 import sys
+import os
 
 def test_agent():
     print("🧪 Testing RisenOne Agent...")
     
-    # Test ADK web launch (background)
+    # Change to agent directory
+    original_dir = os.getcwd()
+    agent_dir = os.path.join(original_dir, 'agent')
+    
+    if not os.path.exists(agent_dir):
+        print("❌ Agent directory not found")
+        return False
+    
+    os.chdir(agent_dir)
+    
     try:
         print("Starting ADK web server...")
         process = subprocess.Popen(['adk', 'web'], 
@@ -223,6 +268,8 @@ def test_agent():
     except Exception as e:
         print(f"❌ Error testing agent: {e}")
         return False
+    finally:
+        os.chdir(original_dir)
 
 if __name__ == "__main__":
     success = test_agent()
@@ -233,7 +280,7 @@ chmod +x test_agent.py
 
 # Create quick start guide
 cat > QUICK_START.md << 'EOF'
-# RisenOne Quick Start
+# RisenOne Fire Analysis Agent - Quick Start
 
 ## Activate Environment
 ```bash
@@ -242,278 +289,62 @@ source activate_env.sh
 
 ## Launch Agent
 ```bash
+cd agent
 adk web
 # Visit: http://localhost:8000
 ```
 
-## Test Queries
-- "Hi, What data do you have access to?"
-- "Show me sales by country"
-- "Yes" (when asked about transferring to database agent)
+## Test Queries for Fire Analysis
+- "Hi, What fire analysis capabilities do you have?"
+- "What's the fire risk for Zone 7 tomorrow?"
+- "Show me weather data for northern Montana"
+- "Calculate fire danger index for current conditions"
 
-## Deploy to Production
-```bash
-cd deployment/
-python deploy.py --create
+## Project Structure
 ```
+risenone-fire-analysis-agent/
+├── agent/                  # Main agent code
+│   ├── data_science/      # Agent implementation
+│   ├── pyproject.toml     # Dependencies
+│   └── .env              # Configuration
+├── activate_env.sh        # Environment activation
+├── test_agent.py         # Quick testing
+└── QUICK_START.md        # This file
+```
+
+## Development Workflow
+1. **Start session**: `source activate_env.sh`
+2. **Work in agent dir**: `cd agent`
+3. **Launch for testing**: `adk web`
+4. **Deploy changes**: Follow ADK deployment docs
 
 ## Troubleshooting
 - Re-run setup: `./setup-risenone.sh`
 - Check logs when running `adk web`
-- Verify .env configuration
+- Verify agent/.env configuration
+- Test imports: `python -c "import google.adk"`
+
+## Next Steps
+- Configure your specific fire data sources in agent/.env
+- Customize fire analysis models in agent/data_science/
+- Add your BigQuery datasets and tables
+- Deploy to production GCP environment
 EOF
 
 print_success "Setup completed successfully!"
 
 echo ""
-echo "🎉 RisenOne AI Agent Setup Complete!"
+echo "🎉 RisenOne Fire Analysis Agent Setup Complete!"
 echo "================================================"
 echo ""
 echo "Next steps:"
 echo "1. Activate environment: source activate_env.sh"
-echo "2. Launch agent: adk web"
-echo "3. Visit: http://localhost:8000"
-echo "4. Test query: 'Hi, What data do you have access to?'"
+echo "2. Change to agent directory: cd agent"
+echo "3. Launch agent: adk web"
+echo "4. Visit: http://localhost:8000"
+echo "5. Test query: 'Hi, What fire analysis capabilities do you have?'"
 echo ""
 echo "📋 Quick test: python test_agent.py"
 echo "📖 Documentation: QUICK_START.md"
 echo ""
-echo "Happy coding! 🚀"
-
-# PowerShell version for Windows
-cat > setup-risenone.ps1 << 'PSEOF'
-# setup-risenone.ps1 - Windows PowerShell setup for RisenOne AI Agent
-# Usage: .\setup-risenone.ps1
-
-param(
-    [switch]$SkipAuth,
-    [switch]$Verbose
-)
-
-$ErrorActionPreference = "Stop"
-
-Write-Host "🚀 RisenOne AI Agent Setup Starting..." -ForegroundColor Blue
-Write-Host "================================================" -ForegroundColor Blue
-
-function Write-Step($message) {
-    Write-Host "📋 $message" -ForegroundColor Blue
-}
-
-function Write-Success($message) {
-    Write-Host "✅ $message" -ForegroundColor Green
-}
-
-function Write-Warning($message) {
-    Write-Host "⚠️  $message" -ForegroundColor Yellow
-}
-
-function Write-Error($message) {
-    Write-Host "❌ $message" -ForegroundColor Red
-}
-
-# Step 1: Verify Prerequisites
-Write-Step "Step 1: Checking Prerequisites..."
-
-# Check if we're in the right directory
-if (!(Test-Path "pyproject.toml") -or !(Test-Path "data_science")) {
-    Write-Error "Must run from the data-science directory"
-    Write-Host "Expected path: risenone-ai-prototype\adk-samples\python\agents\data-science"
-    exit 1
-}
-
-# Check Poetry
-try {
-    $poetryVersion = poetry --version
-    Write-Success "Poetry found: $poetryVersion"
-} catch {
-    Write-Error "Poetry not found. Install from: https://python-poetry.org/docs/"
-    Write-Host "Quick install: (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -"
-    exit 1
-}
-
-# Check gcloud
-try {
-    $gcloudVersion = gcloud --version | Select-Object -First 1
-    Write-Success "Google Cloud CLI found: $gcloudVersion"
-} catch {
-    Write-Error "Google Cloud CLI not found. Install from: https://cloud.google.com/sdk/docs/install"
-    exit 1
-}
-
-Write-Success "Prerequisites check passed"
-
-# Step 2: Poetry Environment Setup
-Write-Step "Step 2: Setting up Poetry Environment..."
-
-# Try to use Python 3.12+ if available
-try {
-    python3.12 --version | Out-Null
-    poetry env use python3.12
-    Write-Success "Using Python 3.12"
-} catch {
-    try {
-        python3.13 --version | Out-Null
-        poetry env use python3.13
-        Write-Success "Using Python 3.13"
-    } catch {
-        Write-Warning "Using system Python"
-        poetry env use python
-    }
-}
-
-# Install dependencies
-Write-Host "Installing dependencies (this may take a few minutes)..."
-poetry install
-
-# Get virtual environment path
-$venvPath = poetry env info --path
-Write-Success "Virtual environment: $venvPath"
-
-# Create activation helper
-$activateScript = @"
-# Auto-generated environment activation script for PowerShell
-`$env:POETRY_VENV_PATH = "$venvPath"
-& "$venvPath\Scripts\Activate.ps1"
-Write-Host "🐍 RisenOne environment activated" -ForegroundColor Green
-Write-Host "Python: `$(Get-Command python | Select-Object -ExpandProperty Source)"
-Write-Host "Version: `$(python --version)"
-"@
-
-$activateScript | Out-File -FilePath "activate_env.ps1" -Encoding UTF8
-Write-Success "Poetry environment configured"
-
-# Step 3: Environment Configuration
-Write-Step "Step 3: Checking Environment Configuration..."
-
-# Check .env file
-if (!(Test-Path ".env")) {
-    Write-Warning ".env file not found"
-    if (Test-Path ".env-example") {
-        Write-Host "Creating .env from .env-example..."
-        Copy-Item ".env-example" ".env"
-        Write-Warning "Please edit .env file with your configuration"
-    } else {
-        Write-Error "No .env or .env-example file found"
-        exit 1
-    }
-}
-
-# Verify key environment variables
-$envContent = Get-Content ".env" -Raw
-if ($envContent -notmatch "GOOGLE_CLOUD_PROJECT.*risenone-ai-prototype") {
-    Write-Warning "Verify GOOGLE_CLOUD_PROJECT in .env file"
-}
-
-if ($envContent -notmatch "GOOGLE_GENAI_USE_VERTEXAI.*1") {
-    Write-Warning "Verify GOOGLE_GENAI_USE_VERTEXAI=1 in .env file"
-}
-
-Write-Success "Environment configuration checked"
-
-# Step 4: Google Cloud Authentication
-Write-Step "Step 4: Google Cloud Authentication..."
-
-if (!$SkipAuth) {
-    # Clear any stale credentials
-    Write-Host "Clearing existing credentials..."
-    try { gcloud auth revoke --all 2>$null } catch { }
-
-    # Interactive authentication
-    Write-Host "Starting authentication (browser will open)..."
-    gcloud auth application-default login --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/bigquery
-
-    # Set quota project
-    Write-Host "Setting quota project..."
-    gcloud auth application-default set-quota-project risenone-ai-prototype
-
-    # Verify authentication
-    Write-Host "Verifying authentication..."
-    $accessToken = gcloud auth application-default print-access-token
-    if ($accessToken) {
-        Write-Success "Authentication successful"
-        Write-Host "Token: $($accessToken.Substring(0, 50))..."
-    } else {
-        Write-Error "Authentication failed"
-        exit 1
-    }
-} else {
-    Write-Warning "Skipping authentication (-SkipAuth specified)"
-}
-
-# Step 5: Final Setup and Testing
-Write-Step "Step 5: Final Setup and Testing..."
-
-# Activate environment for testing
-& "$venvPath\Scripts\Activate.ps1"
-
-# Test basic imports
-Write-Host "Testing Python environment..."
-try {
-    python -c "import google.adk; print('✅ ADK import successful')"
-    python -c "import google.cloud.bigquery; print('✅ BigQuery import successful')"
-    Write-Success "Python environment test passed"
-} catch {
-    Write-Error "Python environment test failed"
-    exit 1
-}
-
-# Create quick start guide
-$quickStartContent = @"
-# RisenOne Quick Start
-
-## Activate Environment
-```powershell
-.\activate_env.ps1
-```
-
-## Launch Agent
-```powershell
-adk web
-# Visit: http://localhost:8000
-```
-
-## Test Queries
-- "Hi, What data do you have access to?"
-- "Show me sales by country"
-- "Yes" (when asked about transferring to database agent)
-
-## Deploy to Production
-```powershell
-cd deployment
-python deploy.py --create
-```
-
-## Troubleshooting
-- Re-run setup: .\setup-risenone.ps1
-- Check logs when running adk web
-- Verify .env configuration
-"@
-
-$quickStartContent | Out-File -FilePath "QUICK_START.md" -Encoding UTF8
-
-Write-Success "Setup completed successfully!"
-
-Write-Host ""
-Write-Host "🎉 RisenOne AI Agent Setup Complete!" -ForegroundColor Green
-Write-Host "================================================" -ForegroundColor Green
-Write-Host ""
-Write-Host "Next steps:"
-Write-Host "1. Activate environment: .\activate_env.ps1"
-Write-Host "2. Launch agent: adk web"
-Write-Host "3. Visit: http://localhost:8000"
-Write-Host "4. Test query: 'Hi, What data do you have access to?'"
-Write-Host ""
-Write-Host "📖 Documentation: QUICK_START.md"
-Write-Host ""
-Write-Host "Happy coding! 🚀" -ForegroundColor Green
-PSEOF
-
-chmod +x setup-risenone.ps1
-
-echo ""
-echo "📦 Setup package created:"
-echo "  - setup-risenone.sh (Mac/Linux/WSL)"
-echo "  - setup-risenone.ps1 (Windows PowerShell)"
-echo "  - activate_env.sh (Environment activation)"
-echo "  - test_agent.py (Quick testing)"
-echo "  - QUICK_START.md (Documentation)"
+echo "🔥 Ready for fire analysis development!"

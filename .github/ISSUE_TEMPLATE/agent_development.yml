@@ -1,0 +1,168 @@
+name: 🤖 Agent Development Task
+description: Plan and track development of a new ADK agent
+title: "[AGENT] "
+labels: ["ADK-Core", "development", "needs-feedback"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🚀 Let's build an amazing AI agent! Please provide details about the agent you want to develop.
+
+  - type: dropdown
+    id: agent_type
+    attributes:
+      label: Agent Type
+      description: What type of agent are you building?
+      options:
+        - LLM Agent (Reasoning & conversation)
+        - Workflow Agent (Sequential orchestration)
+        - Custom Agent (Specialized business logic)
+        - Tool Agent (External system integration)
+        - Multi-Agent System (Coordinated agents)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Development Complexity
+      description: How complex is this agent development?
+      options:
+        - size-S (Simple, 1-2 days)
+        - size-M (Medium, 3-5 days)
+        - size-L (Large, 1-2 weeks)
+        - size-XL (Complex, 2+ weeks)
+    validations:
+      required: true
+
+  - type: textarea
+    id: agent_purpose
+    attributes:
+      label: Agent Purpose & Goals
+      description: What is this agent designed to do?
+      placeholder: |
+        Describe the agent's primary purpose, key capabilities, and success metrics.
+        
+        Example: "Customer service agent that handles billing inquiries, processes refunds, and escalates complex issues to human agents."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_stories
+    attributes:
+      label: User Stories
+      description: How will users interact with this agent?
+      placeholder: |
+        As a [user type], I want [agent capability] so that [benefit]
+        
+        Example:
+        As a customer, I want to ask billing questions so that I can resolve issues quickly
+        As a support manager, I want to see agent performance metrics so that I can optimize workflows
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_requirements
+    attributes:
+      label: Technical Requirements
+      description: What are the technical specifications?
+      placeholder: |
+        - Model: Gemini 2.0 Flash Thinking
+        - Tools: [List required tools/APIs]
+        - Data Sources: [Databases, APIs, files]
+        - Integration Points: [External systems]
+        - Performance Requirements: [Response time, accuracy]
+      render: markdown
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: adk_components
+    attributes:
+      label: ADK Components Needed
+      description: Which ADK components will this agent use?
+      options:
+        - label: Agent Class (Core agent functionality)
+        - label: Tool Integration (MCP tools, custom functions)
+        - label: State Management (Session handling, context)
+        - label: Multi-Agent Orchestration (Agent coordination)
+        - label: Event-Driven Architecture (Streaming, real-time)
+        - label: Evaluation Framework (Testing, metrics)
+
+  - type: checkboxes
+    id: gcp_services
+    attributes:
+      label: GCP Services Required
+      description: Which Google Cloud services will be used?
+      options:
+        - label: Vertex AI (Model hosting, training)
+        - label: Cloud Run (Serverless deployment)
+        - label: BigQuery (Data warehouse)
+        - label: AlloyDB (PostgreSQL database)
+        - label: Pub/Sub (Messaging, events)
+        - label: Cloud Storage (File storage)
+        - label: Other (specify in additional context)
+
+  - type: dropdown
+    id: security_level
+    attributes:
+      label: Security Classification
+      description: What level of security does this agent require?
+      options:
+        - Public (No sensitive data)
+        - Internal (Company data only)
+        - Confidential (Sensitive business data)
+        - Restricted (Highly sensitive/regulated data)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: governance_requirements
+    attributes:
+      label: Governance & Compliance
+      description: Check all governance requirements that apply
+      options:
+        - label: Human-in-the-loop oversight required
+        - label: Bias and fairness testing needed
+        - label: Privacy-sensitive data handling
+        - label: Regulatory compliance (GDPR, HIPAA, etc.)
+        - label: Audit trail and logging required
+        - label: Ethics board review needed
+
+  - type: textarea
+    id: success_criteria
+    attributes:
+      label: Success Criteria & Metrics
+      description: How will you measure the agent's success?
+      placeholder: |
+        - [ ] Accuracy: >95% correct responses
+        - [ ] Performance: <2 second response time
+        - [ ] User Satisfaction: >4.5/5 rating
+        - [ ] Integration: Successfully connects to all required systems
+        - [ ] Security: Passes all security validations
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing_strategy
+    attributes:
+      label: Testing Strategy
+      description: How will you test and validate this agent?
+      placeholder: |
+        - Unit tests for individual components
+        - Integration tests with external systems  
+        - Performance benchmarks
+        - Security validation
+        - User acceptance testing
+      render: markdown
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other details, constraints, or considerations
+      placeholder: Dependencies, deadlines, team members, related projects, etc.

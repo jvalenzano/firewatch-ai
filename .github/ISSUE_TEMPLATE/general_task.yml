@@ -1,0 +1,105 @@
+name: 📝 General Task
+description: Create a general development or operational task
+title: "[TASK] "
+labels: ["needs-feedback"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        📋 Let's get organized! Please provide details about the task you need to track.
+
+  - type: dropdown
+    id: task_category
+    attributes:
+      label: Task Category
+      description: What type of task is this?
+      options:
+        - Development (Code/implementation)
+        - Testing (Quality assurance)
+        - Documentation (Writing/updating docs)
+        - Operations (Deployment/maintenance)
+        - Research (Investigation/analysis)
+        - Governance (Compliance/security)
+        - Planning (Architecture/design)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How urgent/important is this task?
+      options:
+        - priority-critical (Critical business impact)
+        - priority-high (High importance, time-sensitive)
+        - priority-medium (Standard priority)
+        - priority-low (Nice to have, not urgent)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Task Size
+      description: How much effort will this task require?
+      options:
+        - size-S (Simple, 1-2 days)
+        - size-M (Medium, 3-5 days)  
+        - size-L (Large, 1-2 weeks)
+        - size-XL (Complex, 2+ weeks)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      description: What needs to be done?
+      placeholder: Provide a clear, detailed description of the task and its objectives
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Completion Criteria
+      description: How will we know this task is done?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies & Prerequisites
+      description: What needs to be completed before this task can start?
+      placeholder: List any blocking issues, required resources, or prerequisite tasks
+
+  - type: checkboxes
+    id: involves_components
+    attributes:
+      label: Components Involved
+      description: Check all that apply to this task
+      options:
+        - label: ADK Core Framework
+        - label: Multi-Agent Systems
+        - label: GCP Services Integration
+        - label: Security & Governance
+        - label: Testing & Validation
+        - label: Documentation
+        - label: User Interface
+        - label: External APIs/Tools
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: Links, references, team members, deadlines, etc.

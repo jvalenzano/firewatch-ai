@@ -1,0 +1,101 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with an ADK agent
+title: "[BUG] "
+labels: ["bug", "needs-feedback"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug! Please provide detailed information to help us resolve this quickly.
+
+  - type: dropdown
+    id: agent_type
+    attributes:
+      label: Agent Type
+      description: What type of agent is experiencing the issue?
+      options:
+        - LLM Agent
+        - Workflow Agent  
+        - Custom Agent
+        - Tool Agent
+        - Multi-Agent System
+        - Unknown/Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Bug Severity
+      description: How severe is this bug?
+      options:
+        - Critical (System down, security issue)
+        - High (Major functionality broken)
+        - Medium (Feature partially broken)
+        - Low (Minor issue, workaround available)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe what happened and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Configure agent with...
+        2. Execute workflow...
+        3. Observe error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Information about your environment
+      placeholder: |
+        - ADK Version: 
+        - GCP Project: 
+        - Model Used: 
+        - Browser/Client: 
+        - OS: 
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs/Screenshots
+      description: Paste relevant logs, error messages, or screenshots
+      placeholder: Paste logs here (remove sensitive information)
+      render: shell
+
+  - type: checkboxes
+    id: security_check
+    attributes:
+      label: Security Checklist
+      description: Please confirm you've checked these security items
+      options:
+        - label: I have removed all sensitive data (API keys, passwords, PII) from this report
+          required: true
+        - label: This bug does not expose sensitive customer or company data
+          required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other context, workarounds, or related issues
+      placeholder: Add any other context about the problem here

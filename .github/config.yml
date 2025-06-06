@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 ADK Documentation
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/agent-builder
+    about: Official Google Agent Development Kit documentation
+  - name: 💬 Team Discussion
+    url: https://github.com/orgs/TechTrend/discussions
+    about: General questions and team discussions
+  - name: 🚨 Security Issues
+    url: mailto:security@techtrend.us
+    about: Report security vulnerabilities privately

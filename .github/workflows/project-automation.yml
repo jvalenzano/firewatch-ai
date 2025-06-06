@@ -1,0 +1,82 @@
+name: ADK Project Automation
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled, closed, reopened]
+  pull_request:
+    types: [opened, closed, merged, ready_for_review]
+
+jobs:
+  auto-assign-labels:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+      - name: Auto-assign project labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const title = issue.title.toLowerCase();
+            const body = issue.body ? issue.body.toLowerCase() : '';
+            
+            // Define label mappings based on issue content
+            const labelMappings = {
+              'discovery': ['discovery', 'architecture', 'planning', 'requirements'],
+              'development': ['agent', 'development', 'implementation', 'adk-core'],
+              'testing': ['test', 'validation', 'qa', 'testing'],
+              'deployment': ['deploy', 'governance', 'security', 'production'],
+              'operations': ['operations', 'monitoring', 'maintenance']
+            };
+            
+            // Auto-assign workflow stage labels
+            for (const [label, keywords] of Object.entries(labelMappings)) {
+              if (keywords.some(keyword => title.includes(keyword) || body.includes(keyword))) {
+                try {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    labels: [label]
+                  });
+                  console.log(`Added label: ${label}`);
+                } catch (error) {
+                  console.log(`Could not add label ${label}: ${error.message}`);
+                }
+              }
+            }
+
+  notify-project-update:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+      - name: Welcome comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const welcomeMessage = `
+            🎉 **Welcome to the ADK Development Workflow!**
+            
+            This issue has been automatically processed and will be tracked on our project board.
+            
+            **Next Steps:**
+            1. Review the issue details and add any missing information
+            2. Assign appropriate team members
+            3. Set priority and size estimates
+            4. Move through our workflow columns as work progresses
+            
+            **Workflow Columns:**
+            - 🔍 **Discovery & Architecture** - Planning and design
+            - ⚙️ **Agent Development** - Implementation phase  
+            - 🧪 **Testing & Validation** - Quality assurance
+            - 🛡️ **Governance & Deployment** - Security and deployment
+            - 🚀 **Production Operations** - Ongoing maintenance
+            
+            Happy building! 🚀
+            `;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: welcomeMessage
+            });
