@@ -10,15 +10,15 @@ The RisenOne Fire Analysis Agent represents a collaborative effort between **Tec
 
 <div align="center">
 
-[![Multi-Agent Architecture](https://img.shields.io/badge/🤖_Multi--Agent_Architecture-Agent_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_mas_architecture.html)
+[![Multi-Agent Architecture](https://img.shields.io/badge/🤖_Multi--Agent_Architecture-Agent_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/interactive/risen_one_mas_architecture.html)
 
-[![AWS-GCP Integration](https://img.shields.io/badge/🌉_AWS--GCP_Integration-Hybrid_Architecture-4285f4?style=for-the-badge&logo=googlecloud)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_integration_architecture.html)
+[![AWS-GCP Integration](https://img.shields.io/badge/🌉_AWS--GCP_Integration-Hybrid_Architecture-4285f4?style=for-the-badge&logo=googlecloud)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/interactive/risen_one_integration_architecture.html)
 
-[![Session Coordination](https://img.shields.io/badge/🧠_Session_Coordination-Agent_Memory-2ecc71?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMiAyMEM3LjU5IDIwIDQgMTYuNDEgNCAxMlM3LjU5IDQgMTIgNFMxOSA3LjU5IDIwIDEyUzE2LjQxIDIwIDEyIDIwWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_session_coordination_example.html)
+[![Session Coordination](https://img.shields.io/badge/🧠_Session_Coordination-Agent_Memory-2ecc71?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMiAyMEM3LjU5IDIwIDQgMTYuNDEgNCAxMlM3LjU5IDQgMTIgNFMxOSA3LjU5IDIwIDEyUzE2LjQxIDIwIDEyIDIwWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/interactive/risen_one_session_coordination_example.html)
 
-[![Technical Workflow](https://img.shields.io/badge/🔧_Technical_Workflow-Data_Processing-ff6b6b?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyIDlMMTIgMkwyIDlMMTIgMTZMMjIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==)](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/interactive/risen_one_technical_workflow.html)
+[![Technical Workflow](https://img.shields.io/badge/🔧_Technical_Workflow-Data_Processing-ff6b6b?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyIDlMMTIgMkwyIDlMMTIgMTZMMjIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/interactive/risen_one_technical_workflow.html)
 
-📚 **[Complete Architecture Documentation →](https://techtrend.github.io/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent/docs/architecture/)**
+📚 **[Complete Architecture Documentation →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/)**
 
 </div>
 
@@ -78,20 +78,26 @@ And receive immediate, comprehensive analysis including:
 
 1. **Clone and Setup**
    ```bash
-   git clone https://github.techtrend.us/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent.git
-   cd risenone-fire-analysis-agent/agent
-   source activate_env.sh
+   git clone https://github.techtrend.us/USDA-AI-Innovation-Hub/risen-one-science-research-agent.git
+   cd risen-one-science-research-agent
+   ./setup-risenone.sh
    ```
 
 2. **Configure Environment**
    ```bash
    # Copy and edit configuration
-   cp .env-example .env
-   nano .env
+   cp agent/.env-example agent/.env
+   nano agent/.env
    ```
 
 3. **Start the System**
    ```bash
+   # Activate environment
+   source activate_env.sh
+   
+   # Navigate to agent directory
+   cd agent
+   
    # Web interface (recommended)
    adk web
    
@@ -106,6 +112,8 @@ Navigate to `http://localhost:8000` to access the interactive interface.
 ```
 risenone-fire-analysis-agent/
 ├── README.md                 # This file - project overview
+├── setup-risenone.sh         # Cross-platform setup script (Mac/Linux)
+├── setup-risenone.ps1        # Windows PowerShell setup script
 ├── agent/                    # Core agent implementation
 │   ├── data_science/         # Multi-agent system code
 │   ├── README.md            # Technical implementation guide
@@ -117,7 +125,7 @@ risenone-fire-analysis-agent/
 │   ├── DEVELOPER_GUIDE.md   # Detailed development guide
 │   └── QUICK_START.md      # Getting started guide
 ├── deployment/              # Vertex AI deployment tools
-└── setup-risenone.sh       # Automated setup scripts
+└── .github/                 # GitHub templates and workflows
 ```
 
 ## 💬 Example Interactions
@@ -188,6 +196,10 @@ This project follows the collaborative model between TechTrend Inc. and RisenOne
 
 ### Development Setup
 ```bash
+# Run setup script for your platform
+./setup-risenone.sh          # Mac/Linux/WSL
+# or .\setup-risenone.ps1    # Windows
+
 # Navigate to agent directory
 cd agent
 
@@ -205,26 +217,36 @@ poetry run pytest eval/
 
 - **[Internal Documentation](docs/internal/)** - Team handoffs, architecture decisions, meeting notes
 - **[Technical Guide](agent/README.md)** - Deep technical implementation details
+- **[Developer Guide](docs/DEVELOPER_GUIDE.md)** - Development workflows and agent connection details
 - **[Quick Start Guide](docs/QUICK_START.md)** - Fast setup and testing workflows
 - **[Architecture Diagrams](docs/architecture/)** - Interactive system visualizations
 
 ## 🚀 Deployment
 
+### Current Production Status
+- **Agent Engine**: ✅ ACTIVE on Vertex AI
+- **Display Name**: RisenOne Fire Analysis Agent
+- **Architecture**: Ultra-minimal (production-optimized)
+- **Status**: Ready for fire analysis queries
+
 ### Development Environment
 ```bash
 # Local testing
+cd agent
 adk web
 ```
 
 ### Production Deployment
+The agent is already deployed to Vertex AI Agent Engine. For updates:
+
 ```bash
 # Build for Vertex AI Agent Engine
 cd agent
 poetry build --format=wheel --output=deployment
 
-# Deploy to GCP
+# Deploy updates to GCP
 cd deployment/
-python3 deploy.py --create
+python3 deploy.py --update
 ```
 
 ## 🤝 Partnership
@@ -246,7 +268,7 @@ This project represents the collaboration between:
 ## 📚 Resources
 
 - [Technical Implementation Guide](agent/README.md) - Deep technical details
-- [Developer Guide](docs/DEVELOPER_GUIDE.md) - Development workflows
+- [Developer Guide](docs/DEVELOPER_GUIDE.md) - Development workflows and agent connection
 - [Architecture Documentation](docs/architecture/) - System design
 - [Quick Start Guide](docs/QUICK_START.md) - Fast setup guide
 
@@ -254,6 +276,7 @@ This project represents the collaboration between:
 
 ### For Technical Issues
 - Check [Technical README](agent/README.md) for troubleshooting
+- Review [Developer Guide](docs/DEVELOPER_GUIDE.md) for agent connection details
 - Review logs at `agent/logs/`
 - Test individual components with `agent/test_agent.py`
 
@@ -263,9 +286,16 @@ This project represents the collaboration between:
 
 ## ⚠️ Important Notes
 
-**This is a prototype system under active development.**
+**This is a production-ready system with active Vertex AI deployment.**
 
-For production deployment considerations:
+Current capabilities:
+- ✅ Fire analysis conversations and domain knowledge
+- ✅ Ultra-minimal architecture for reliable emergency response
+- ✅ Production deployment on Vertex AI Agent Engine
+- 🔄 Weather data integration (Phase 2)
+- 🔄 Advanced ML predictions (Phase 3)
+
+For production considerations:
 - Implement comprehensive error handling for emergency situations
 - Add redundant data sources and failover mechanisms
 - Establish audit logging for all fire-related decisions
