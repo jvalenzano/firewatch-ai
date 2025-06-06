@@ -10,7 +10,7 @@
 
 **Target Users**: Forest Service scientists analyzing fire danger, crew positioning, and weather forecasting
 
----
+
 
 ## 🏗️ System Architecture
 
@@ -54,7 +54,6 @@ risenone-fire-analysis-agent/
 └── setup-risenone.*           # Cross-platform setup scripts
 ```
 
----
 
 ## 🚀 Development Environment Setup
 
@@ -114,7 +113,192 @@ adk web
 # Expected: Response about fire analysis data sources
 ```
 
----
+
+## 🚀 Deployed Agent Information
+
+### Production Agent Details
+- **Agent Name**: RisenOne Fire Analysis Agent
+- **Resource ID**: `projects/481721551004/locations/us-central1/reasoningEngines/5957884075011211264`
+- **Display Name**: RisenOne Fire Analysis Agent
+- **Description**: AI assistant for Forest Service wildfire risk analysis and emergency response decision support
+- **Architecture**: Ultra-minimal agent (production-optimized)
+- **Deployment Status**: ✅ ACTIVE
+- **Deployed**: June 3, 2025
+
+### Connecting to the Agent
+
+#### For Python/Backend Integration:
+```python
+from vertexai import agent_engines
+import vertexai
+
+# Initialize Vertex AI
+vertexai.init(project='risenone-ai-prototype', location='us-central1')
+
+# Get the deployed agent
+agent = agent_engines.get('projects/481721551004/locations/us-central1/reasoningEngines/5957884075011211264')
+
+# Create session for a scientist
+session = agent.create_session(user_id="scientist_123")
+
+# Query the agent about fire risk
+response = agent.stream_query(
+    user_id="scientist_123",
+    session_id=session["id"],
+    message="What's the fire risk in Zone 7 for the next 3 days?"
+)
+
+# Process streaming response
+for event in response:
+    if 'content' in event and 'parts' in event['content']:
+        print(event['content']['parts'][0]['text'])
+```
+
+#### For Frontend/UX Integration:
+```javascript
+// Direct REST API endpoint (for advanced integrations)
+const AGENT_ENDPOINT = 'https://us-central1-aiplatform.googleapis.com/v1/projects/481721551004/locations/us-central1/reasoningEngines/5957884075011211264'
+
+// Recommended: Use Cloud Functions wrapper for frontend
+const response = await fetch('/api/fire-analysis', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + authToken
+  },
+  body: JSON.stringify({
+    userId: 'scientist_123',
+    message: 'What is the fire risk in Zone 7?',
+    sessionId: userSessionId // optional: for conversation continuity
+  })
+})
+
+const result = await response.json()
+console.log('Fire analysis response:', result.message)
+```
+
+#### Quick Connection Test:
+```bash
+# Test the deployed agent from command line
+cd agent
+poetry run python -c "
+from vertexai import agent_engines
+import vertexai
+
+vertexai.init(project='risenone-ai-prototype', location='us-central1')
+agent = agent_engines.get('projects/481721551004/locations/us-central1/reasoningEngines/5957884075011211264')
+session = agent.create_session(user_id='test_user')
+
+response = list(agent.stream_query(
+    user_id='test_user', 
+    session_id=session['id'], 
+    message='Hello, what fire analysis capabilities do you have?'
+))
+
+print('✅ Agent Response:', response[-1]['content']['parts'][0]['text'] if response else 'No response')
+"
+```
+
+### Agent Management & Monitoring
+
+#### Google Cloud Console Access:
+- **Agent Engine Console**: [View Agent](https://console.cloud.google.com/vertex-ai/agents/agent-engines?project=risenone-ai-prototype)
+- **Monitoring Dashboard**: [Agent Metrics](https://console.cloud.google.com/vertex-ai/agents/agent-engines/5957884075011211264?project=risenone-ai-prototype)
+- **Cloud Logging**: Filter by `resource.type="aiplatform_agent_engine"`
+
+#### Useful Commands:
+```bash
+# List all deployed agents
+gcloud ai agent-engines list --region=us-central1
+
+# Get specific agent details  
+gcloud ai agent-engines describe 5957884075011211264 --region=us-central1
+
+# View agent logs
+gcloud logging read "resource.type=aiplatform_agent_engine" --limit=50
+```
+
+#### Environment Variables for Integration:
+```bash
+# Add these to your .env file for easy integration
+AGENT_RESOURCE_ID="projects/481721551004/locations/us-central1/reasoningEngines/5957884075011211264"
+AGENT_RESOURCE_NAME="5957884075011211264"
+AGENT_DISPLAY_NAME="RisenOne Fire Analysis Agent"
+AGENT_PROJECT_ID="risenone-ai-prototype"
+AGENT_LOCATION="us-central1"
+```
+
+### Fire Analysis Capabilities
+
+#### Current Agent Features:
+- 🔥 **Fire Risk Assessment**: Natural language queries about fire danger levels
+- 🌡️ **Weather Integration**: Understanding of weather factors affecting fire risk  
+- 📊 **Data Analysis**: Basic fire science knowledge and calculations
+- 💬 **Conversational Interface**: Multi-turn conversations with context retention
+- 🏗️ **Ultra-Minimal Architecture**: Optimized for reliability and fast response
+
+#### Example Queries for Testing:
+- "What factors affect fire risk in wildland areas?"
+- "How do weather conditions impact fire behavior?"
+- "What is the Haines Index and how is it calculated?"
+- "Explain fire danger rating systems used by the Forest Service"
+
+#### Planned Enhancements (Roadmap):
+- **Phase 2**: Weather data integration (RAWS stations, NOAA forecasts)
+- **Phase 3**: Zone 7 specific analysis and crew positioning recommendations
+- **Phase 4**: Multi-agent system with ML predictions and advanced visualizations
+
+### For UX/UI Development Teams
+
+#### Integration Recommendations:
+1. **Use Cloud Functions**: Create a backend API wrapper for the agent instead of direct frontend calls
+2. **Session Management**: Implement user session tracking for conversation continuity  
+3. **Error Handling**: Plan for agent downtime and graceful degradation
+4. **Authentication**: Integrate with existing Forest Service authentication systems
+5. **Response Streaming**: Consider real-time streaming for better user experience
+
+#### Frontend Framework Examples:
+```javascript
+// React hook for agent integration
+const useFireAnalysisAgent = () => {
+  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState('')
+  
+  const queryAgent = async (message) => {
+    setLoading(true)
+    try {
+      const result = await fetch('/api/fire-analysis', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message, userId: currentUser.id})
+      })
+      const data = await result.json()
+      setResponse(data.response)
+    } catch (error) {
+      console.error('Agent query failed:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+  return {queryAgent, loading, response}
+}
+```
+
+### Troubleshooting Agent Connection
+
+#### Common Issues:
+- **Authentication Errors**: Ensure ADC is set up with `gcloud auth application-default login`
+- **Permission Denied**: Verify IAM roles include Vertex AI User
+- **Agent Not Found**: Confirm project ID and region in connection string
+- **Timeout Issues**: Check network connectivity and retry logic
+
+#### Support Contacts:
+- **Technical Issues**: TechTrend AI Team (@TechTrend)
+- **Agent Deployment**: Jason Valenzano (@jasonvalenzano)  
+- **Fire Domain Questions**: RisenOne Team (@RisenOne)
+- **USDA Integration**: USDA AI Innovation Hub team
+
 
 ## 🔄 Git Workflow & Branching Strategy
 
@@ -186,8 +370,6 @@ refactor(bigquery): optimize ML model queries
 test(eval): add fire prediction accuracy tests
 ```
 
----
-
 ## 🧪 Testing Strategy
 
 ### Local Testing
@@ -236,7 +418,6 @@ python deployment/test_deployment.py --resource_id=$RESOURCE_ID --user_id=test_u
 # - Crew optimization: <15 seconds
 ```
 
----
 
 ## 🚀 Deployment Process
 
@@ -280,7 +461,6 @@ python deploy.py --create --env=production
 python deploy.py --rollback --resource_id=$PREVIOUS_RESOURCE_ID
 ```
 
----
 
 ## 🔥 Fire Analysis Domain Specifics
 
@@ -338,7 +518,6 @@ python deploy.py --rollback --resource_id=$PREVIOUS_RESOURCE_ID
 "Model fire spread scenarios for the Miller Creek area"
 ```
 
----
 
 ## 👥 Team Collaboration
 
@@ -396,7 +575,6 @@ def calculate_fire_danger_index(temperature: float, humidity: float,
 # Response Style: Professional, data-driven, actionable recommendations
 ```
 
----
 
 ## 🔧 Troubleshooting
 
@@ -468,7 +646,6 @@ gcloud logging read "resource.type=vertex_ai_reasoning_engine"
 - Review prompt engineering for fire domain
 - Validate calculations against known results
 
----
 
 ## 📚 Resources & References
 
@@ -494,7 +671,6 @@ gcloud logging read "resource.type=vertex_ai_reasoning_engine"
 - **GitHub Enterprise**: [TechTrend GitHub Guide](https://github.techtrend.us/docs)
 - **VS Code Extensions**: Python, ADK development tools
 
----
 
 ## 🎯 Roadmap & Future Development
 
@@ -528,7 +704,6 @@ gcloud logging read "resource.type=vertex_ai_reasoning_engine"
 - Real-time fire tracking and prediction
 - Multi-agency collaboration platform
 
----
 
 ## 🤝 Support & Escalation
 
