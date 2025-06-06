@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Data Flow - RisenOne AI Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+        
+        .workflow-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .workflow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            min-height: 600px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .step-number {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .technical-detail {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid rgba(255,255,255,0.5);
+        }
+        
+        .tech-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #FFE066;
+        }
+        
+        .tech-desc {
+            font-size: 12px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .code-snippet {
+            background: rgba(0,0,0,0.3);
+            border-radius: 6px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            margin-top: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .data-transfer-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            color: white;
+        }
+        
+        .transfer-title {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .transfer-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .transfer-option {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .option-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #FFE066;
+        }
+        
+        .option-desc {
+            font-size: 13px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pros, .cons {
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .pros {
+            background: rgba(76, 175, 80, 0.3);
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .cons {
+            background: rgba(255, 152, 0, 0.3);
+            border-left: 3px solid #FF9800;
+        }
+        
+        .flow-arrow {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #667eea;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        .workflow-step:last-child .flow-arrow {
+            display: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: translateY(-50%) scale(1); }
+            50% { opacity: 1; transform: translateY(-50%) scale(1.1); }
+        }
+        
+        .implementation-notes {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .notes-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .note-item {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .security-callout {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav style="background: #2c3e50; color: white; padding: 15px; margin-bottom: 20px; position: sticky; top: 0; z-index: 1000;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <a href="https://github.com/techtrend/USDA-AI-Innovation-Hub/risenone-fire-analysis-agent" 
+               style="color: #74b9ff; text-decoration: none; font-weight: bold;">
+                ← Back to Repository
+            </a>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="risen_one_mas_architecture.html" style="color: white; text-decoration: none;">Multi-Agent</a>
+            <a href="risen_one_integration_architecture.html" style="color: white; text-decoration: none;">Integration</a>
+            <a href="risen_one_session_coordination_example.html" style="color: white; text-decoration: none;">Sessions</a>
+            <a href="risen_one_technical_workflow.html" style="color: white; text-decoration: none;">Workflow</a>
+        </div>
+    </div>
+</nav>   
+    <div class="container">
+        <div class="title">
+            🔧 Technical Data Flow: RisenOne AI Integration
+        </div>
+        
+        <div class="workflow-container">
+            <!-- Step 1: Scientist Query -->
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div class="step-title">🔍 Scientist Query Capture</div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Frontend Processing</div>
+                    <div class="tech-desc">OpenLayers map interface captures natural language input with context awareness</div>
+                    <div class="code-snippet">
+// Map interface query handler
+document.getElementById('ai-query').addEventListener('input', (e) => {
+  const query = e.target.value;
+  const mapBounds = map.getView().calculateExtent();
+  const context = {
+    location: mapBounds,
+    activeLayer: getCurrentLayer(),
+    timestamp: new Date().toISOString()
+  };
+});
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Session Management</div>
+                    <div class="tech-desc">User authentication, session persistence, and conversation context tracking</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Query Preprocessing</div>
+                    <div class="tech-desc">Input validation, geospatial context extraction, and intent classification</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Security Validation</div>
+                    <div class="tech-desc">Input sanitization, rate limiting, and user permission checks</div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+            </div>
+            
+            <!-- Step 2: API Bridge -->
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div class="step-title">🌉 API Bridge & Data Orchestration</div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">AWS Authentication</div>
+                    <div class="tech-desc">Service account tokens, IAM roles, and secure credential management</div>
+                    <div class="code-snippet">
+// GCP service account auth
+const auth = new GoogleAuth({
+  scopes: ['https://www.googleapis.com/auth/cloud-platform']
+});
+const client = await auth.getClient();
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Data Discovery</div>
+                    <div class="tech-desc">Query analysis to determine required data sources (weather, fire, field observations)</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Real-time Data Fetch</div>
+                    <div class="tech-desc">Parallel API calls to AWS S3, RDS, and external data sources</div>
+                    <div class="code-snippet">
+// Parallel data fetching
+const [weatherData, fireData, fieldData] = await Promise.all([
+  fetchWeatherData(queryContext),
+  fetchFireDangerData(queryContext),
+  fetchFieldObservations(queryContext)
+]);
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Data Transformation</div>
+                    <div class="tech-desc">Format normalization, geospatial coordinate conversion, and schema mapping for GCP</div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+            </div>
+            
+            <!-- Step 3: AI Processing -->
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div class="step-title">🤖 AI Processing Pipeline</div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Vertex AI Agent Engine</div>
+                    <div class="tech-desc">Natural language understanding, intent recognition, and workflow orchestration</div>
+                    <div class="code-snippet">
+# Agent Engine processing
+agent = vertexai.agent_engines.get(AGENT_RESOURCE_ID)
+session = agent.create_session(user_id=scientist_id)
+response = agent.query(
+    message=user_query,
+    context=geospatial_context
+)
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Gemini 2.5 Pro Analysis</div>
+                    <div class="tech-desc">Advanced reasoning, pattern recognition, and domain-specific fire risk analysis</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">BigQuery ML Execution</div>
+                    <div class="tech-desc">Fire spread prediction models, statistical analysis, and probability calculations</div>
+                    <div class="code-snippet">
+-- Fire risk prediction query
+SELECT 
+  location,
+  predicted_fire_danger,
+  probability_score
+FROM ML.PREDICT(MODEL `fire_risk_model`,
+  (SELECT * FROM weather_fire_data 
+   WHERE region = @query_region))
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Google Earth Engine</div>
+                    <div class="tech-desc">Satellite imagery analysis, vegetation indices, and large-scale geospatial computations</div>
+                </div>
+                
+                <div class="flow-arrow">→</div>
+            </div>
+            
+            <!-- Step 4: Smart Results -->
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <div class="step-title">📊 Smart Results & Visualization</div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Results Aggregation</div>
+                    <div class="tech-desc">Combine ML predictions, geospatial analysis, and natural language insights</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Map Overlay Generation</div>
+                    <div class="tech-desc">GeoJSON creation, heatmap rendering, and interactive layer preparation</div>
+                    <div class="code-snippet">
+// Generate map overlay
+const fireRiskOverlay = {
+  type: "FeatureCollection",
+  features: predictions.map(p => ({
+    type: "Feature",
+    geometry: p.geometry,
+    properties: {
+      risk_level: p.danger_score,
+      confidence: p.confidence,
+      recommendations: p.actions
+    }
+  }))
+};
+                    </div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Chart Data Preparation</div>
+                    <div class="tech-desc">Time series formatting, statistical summaries, and trend visualization data</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Response Caching</div>
+                    <div class="tech-desc">Redis caching for similar queries, result optimization, and performance enhancement</div>
+                </div>
+                
+                <div class="technical-detail">
+                    <div class="tech-title">Secure Response Delivery</div>
+                    <div class="tech-desc">Encrypted transmission back to AWS frontend with audit logging</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Transfer Deep Dive -->
+        <div class="data-transfer-section">
+            <div class="transfer-title">🔄 AWS ↔ GCP Data Transfer Strategy</div>
+            <div class="transfer-options">
+                <div class="transfer-option">
+                    <div class="option-title">Real-time API Fetch</div>
+                    <div class="option-desc">GCP agent calls AWS APIs when processing queries to get current data</div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Pros:</strong><br>
+                            • Always current data<br>
+                            • No data duplication<br>
+                            • Simple setup
+                        </div>
+                        <div class="cons">
+                            <strong>⚠️ Considerations:</strong><br>
+                            • Query latency +200-500ms<br>
+                            • AWS API dependency<br>
+                            • Network reliability needed
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transfer-option">
+                    <div class="option-title">Scheduled BigQuery Sync</div>
+                    <div class="option-desc">Periodic (hourly/daily) data pipeline from S3 to BigQuery using Cloud Storage Transfer</div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Pros:</strong><br>
+                            • Fastest query response<br>
+                            • No real-time dependencies<br>
+                            • Batch optimization
+                        </div>
+                        <div class="cons">
+                            <strong>⚠️ Considerations:</strong><br>
+                            • Data staleness<br>
+                            • Storage costs<br>
+                            • Sync complexity
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transfer-option">
+                    <div class="option-title">Hybrid Event-driven</div>
+                    <div class="option-desc">Historical data in BigQuery + real-time fetch for current conditions via Pub/Sub</div>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <strong>✅ Pros:</strong><br>
+                            • Best performance<br>
+                            • Data freshness<br>
+                            • Optimal cost
+                        </div>
+                        <div class="cons">
+                            <strong>⚠️ Considerations:</strong><br>
+                            • Complex integration<br>
+                            • Event handling logic<br>
+                            • Error recovery
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Callout -->
+        <div class="security-callout">
+            <strong>🛡️ Security & Compliance</strong><br>
+            All data transfers use TLS 1.3 encryption, OAuth 2.0 authentication, and audit logging for FedRAMP compliance
+        </div>
+        
+        <!-- Implementation Notes -->
+        <div class="implementation-notes">
+            <div class="notes-title">🔧 Implementation Notes for POC</div>
+            
+            <div class="note-item">
+                <strong>Recommended Approach:</strong> Start with real-time API fetch for POC simplicity, then evaluate hybrid approach based on performance requirements and data volume
+            </div>
+            
+            <div class="note-item">
+                <strong>Performance Targets:</strong> End-to-end query response under 3 seconds for typical fire risk questions, under 10 seconds for complex multi-region analysis
+            </div>
+            
+            <div class="note-item">
+                <strong>Scalability:</strong> Architecture supports 1-100 concurrent users with auto-scaling Cloud Functions and Vertex AI Agent Engine
+            </div>
+            
+            <div class="note-item">
+                <strong>Error Handling:</strong> Graceful degradation when GCP unavailable - fallback to basic AWS data display with retry mechanisms
+            </div>
+            
+            <div class="note-item">
+                <strong>Monitoring:</strong> Cloud Monitoring dashboards for query latency, API success rates, and cost tracking across both AWS and GCP
+            </div>
+        </div>
+    </div>
+</body>
+</html>
