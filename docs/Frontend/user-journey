@@ -1,0 +1,124 @@
+# User Stories and Journey Maps
+
+This document outlines the user stories, journey maps, and a wireframe for the RisenOne Fire Risk AI Proof of Concept (POC). It serves as a unified communication tool for the team, aligning the user journey with the technical vision for the front-end layer. The focus is on the three demonstration scenarios, ensuring stakeholders see the value proposition and technical feasibility. Let’s break it down.
+
+## Scenario 1: "Current Fire Danger Assessment"
+
+**User Story:**
+
+As a Forest Service Scientist, I want to quickly assess the current fire danger in a specific zone (e.g., Zone 7) so that I can make immediate crew positioning decisions.
+
+**Acceptance Criteria:**
+* User enters "What’s the current fire danger in Zone 7?" via the Chat Interface.
+* System responds within 15 seconds with a Burning Index (e.g., 85 - EXTREME) and a heatmap overlay on the Map Interface.
+* Chat provides a natural language explanation and crew recommendations.
+* Map highlights risk distribution with clickable zones for detail.
+
+**Journey Map:**
+
+* **Phase 1: Trigger (0-2 sec)**
+    * **Action:** User opens the app and types query in Chat Interface.
+    * **Emotion:** Curious, focused.
+    * **Touchpoint:** Chat Interface displays input field and loading spinner.
+* **Phase 2: Processing (2-15 sec)**
+    * **Action:** Root Coordinator routes query to Weather Analysis and Fire Risk Agents; Map Interface shows progress.
+    * **Emotion:** Anticipatory.
+    * **Touchpoint:** Loading indicator updates; Weather.gov API data fetched.
+* **Phase 3: Response (15 sec)**
+    * **Action:** Map displays heatmap; Chat shows "Burning Index: 85 (EXTREME)" and "Position crews near high-risk areas."
+    * **Emotion:** Satisfied, relieved.
+    * **Touchpoint:** Interactive heatmap and readable chat response.
+* **Phase 4: Follow-Up (15+ sec)**
+    * **Action:** User clicks heatmap zone for details or asks follow-up question.
+    * **Emotion:** Engaged.
+    * **Touchpoint:** Detailed tooltip or new chat response.
+
+## Scenario 2: "Multi-Day Predictive Analysis"
+
+**User Story:**
+
+As a Forest Service Scientist, I want to predict fire risk over the next 5 days under specific conditions (e.g., no rain) so that I can plan proactive measures.
+
+**Acceptance Criteria:**
+* User inputs "How will fire risk change over the next 5 days if no rain falls?" via Chat Interface.
+* System responds within 25 seconds with a temporal heatmap progression (Day 1: HIGH to Day 5: EXTREME) on the Map Interface.
+* Chat provides daily risk levels and pre-positioning recommendations by Day 3.
+* “What-if” slider allows condition adjustments.
+
+**Journey Map:**
+
+* **Phase 1: Trigger (0-2 sec)**
+    * **Action:** User selects “What-if” scenario and inputs query.
+    * **Emotion:** Strategic, inquisitive.
+    * **Touchpoint:** Chat Interface with slider and input field.
+* **Phase 2: Processing (2-25 sec)**
+    * **Action:** Agents process 5-day forecast; Map Interface animates progress.
+    * **Emotion:** Patient.
+    * **Touchpoint:** Loading bar and forecast data integration.
+* **Phase 3: Response (25 sec)**
+    * **Action:** Map shows day-by-day heatmap; Chat displays "Day 1: HIGH → Day 5: EXTREME" and "Pre-position by Day 3."
+    * **Emotion:** Impressed, decisive.
+    * **Touchpoint:** Animated map and detailed chat narrative.
+* **Phase 4: Follow-Up (25+ sec)**
+    * **Action:** User adjusts slider or requests region-specific details.
+    * **Emotion:** Curious.
+    * **Touchpoint:** Updated map and chat response.
+
+## Scenario 3: "Complex Multi-Region Analysis"
+
+**User Story:**
+
+As a Forest Service Scientist, I want to analyze fire risk across multiple regions (e.g., Southern California and Northern Rockies) so that I can assess new ignition risks affecting Zone 7.
+
+**Acceptance Criteria:**
+* User inputs "With active fires in Southern California and current conditions in Northern Rockies, what’s the risk of new ignitions affecting Zone 7?" via Chat Interface.
+* System responds within 30 seconds with a multi-region heatmap on the Map Interface.
+* Chat provides a detailed risk assessment and strategic insights.
+* Map supports region-specific overlays.
+
+**Journey Map:**
+
+* **Phase 1: Trigger (0-2 sec)**
+    * **Action:** User enters complex query in Chat Interface.
+    * **Emotion:** Analytical, hopeful.
+    * **Touchpoint:** Chat input field and map reset.
+* **Phase 2: Processing (2-30 sec)**
+    * **Action:** Agents correlate synthetic and real data; Map Interface indicates multi-region analysis.
+    * **Emotion:** Engaged.
+    * **Touchpoint:** Progress indicator and data synthesis.
+* **Phase 3: Response (30 sec)**
+    * **Action:** Map shows multi-region overlay; Chat delivers "Risk assessment: Moderate in Zone 7 due to Southern California fires."
+    * **Emotion:** Confident, informed.
+    * **Touchpoint:** Detailed map and comprehensive chat response.
+* **Phase 4: Follow-Up (30+ sec)**
+    * **Action:** User explores specific regions or asks for mitigation strategies.
+    * **Emotion:** Proactive.
+    * **Touchpoint:** Interactive map zones and chat dialogue.
+
+## Wireframe Description
+
+Below is a textual representation of the wireframe, showing the Map Interface interacting with the Chat Interface. Imagine a split-screen layout optimized for desktop and mobile views.
+
+```
++-------------------------------------------+
+|           RisenOne Fire Risk AI           |
+|-------------------------------------------|
+| [Map Interface]     | [Chat Interface]    |
+| +-----------------+ | +-----------------+ |
+| | Heatmap         | | | Chat Input:     | |
+| | [Zone 7]        | | | [Text Box]      | |
+| | [Color          | | | [Send Btn]      | |
+| |  Gradient]      | | |-----------------| |
+| | [Tooltip]       | | | Response:       | |
+| | [Slider]        | | | "Burning        | |
+| +-----------------+ | |  Index: 85      | |
+|                     | |  (EXTREME)"     | |
+|                     | | [Crew Rec.]     | |
+|                     | +-----------------+ |
++-------------------------------------------+
+```
+
+* **Layout:** The screen is divided vertically. The left side hosts the Map Interface with a heatmap (e.g., Zone 7 in red for EXTREME risk), a tooltip for zone details, and a “What-if” slider for scenario adjustments. The right side features the Chat Interface with an input text box, send button, and a response area displaying agent-generated text.
+* **Interaction:** Typing a query (e.g., "What’s the current fire danger?") in the Chat Interface triggers a loading spinner. The Map Interface updates with a heatmap, and the Chat Interface fills with the response. Clicking a map zone opens a tooltip, syncing with chat for detailed data.
+* **Responsiveness:** On mobile, the layout stacks vertically, with the Map Interface above the Chat Interface, ensuring touch-friendly controls.
+* This wireframe, built with React and AG-UI as suggested, will be prototyped using Figma or Adobe XD for the Week 1 demo (June 9-13, 2025).
