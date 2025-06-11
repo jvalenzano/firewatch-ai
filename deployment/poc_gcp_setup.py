@@ -40,7 +40,7 @@ flags.DEFINE_bool("validate_setup", False, "Validate complete setup")
 # POC-specific constants
 POC_DATASET_ID = "fire_risk_poc"
 WEATHER_API_BASE = "https://api.weather.gov"
-FIRE_DATA_PATH = "agent/data_science/utils/data/fire_data/data"
+FIRE_DATA_PATH = "../agent/data_science/utils/data/fire_data/data"
 
 class POCGCPSetup:
     """Handles GCP setup for Fire Risk AI POC"""
@@ -294,7 +294,7 @@ BQML_RAG_CORPUS_NAME=
 CODE_INTERPRETER_EXTENSION_NAME=
 """
             
-            env_file_path = Path("agent/.env.poc")
+            env_file_path = Path("../agent/.env.poc")
             with open(env_file_path, "w") as f:
                 f.write(env_content)
             
@@ -339,16 +339,18 @@ CODE_INTERPRETER_EXTENSION_NAME=
         # Validate Vertex AI
         validation_results["vertex_ai"] = self.setup_vertex_ai_platform()
         
-        # Validate fire data
+        # Validate fire data (core tables: station_metadata and nfdr_daily_summary)
         try:
             dataset_ref = self.bq_client.dataset(POC_DATASET_ID)
             tables = list(self.bq_client.list_tables(dataset_ref))
-            validation_results["fire_data_loaded"] = len(tables) >= 3
+            table_names = [table.table_id for table in tables]
+            core_tables_present = "station_metadata" in table_names and "nfdr_daily_summary" in table_names
+            validation_results["fire_data_loaded"] = core_tables_present
         except:
             pass
         
         # Validate environment config
-        validation_results["environment_config"] = Path("agent/.env.poc").exists()
+        validation_results["environment_config"] = Path("../agent/.env.poc").exists()
         
         # Print validation summary
         logger.info("\n" + "="*60)
