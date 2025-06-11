@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RisenOne Fire Risk AI - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F5F5F5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .nav-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .nav-bar a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .demo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .container {
+            height: 100vh;
+            padding: 60px 50px 50px 50px; /* Adjusted top padding for nav bar */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E90FF;
+        }
+
+        .scenario-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: white;
+            border: 2px solid #1E90FF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background-color: #1E90FF;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: #E6F3FF;
+        }
+
+        .main-interface {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            height: calc(100vh - 150px); /* Adjusted for nav bar */
+        }
+
+        .map-interface {
+            width: 60%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-interface {
+            width: 40%;
+            background-color: #32CD32;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .demo-instructions {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1E90FF;
+        }
+
+        .demo-instructions h4 {
+            color: #1E90FF;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .demo-query {
+            background-color: #E6F3FF;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 13px;
+            border: 1px solid #1E90FF;
+        }
+
+        .demo-query:hover {
+            background-color: #CCE7FF;
+        }
+
+        .demo-query:active {
+            background-color: #1E90FF;
+            color: white;
+        }
+
+        .technical-explanation {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            border-left: 4px solid #FFA500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .technical-explanation h5 {
+            color: #1E90FF;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .technical-explanation ul {
+            margin-left: 18px;
+            color: #333;
+        }
+
+        .technical-explanation li {
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .scenario-flow-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #32CD32;
+        }
+
+        .scenario-flow-title {
+            color: #1E90FF;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .scenario-button {
+            display: block;
+            width: 100%;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .scenario-button:hover {
+            background-color: #1873CC;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .scenario-button:active {
+            transform: translateY(0);
+        }
+
+        .scenario-number {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .scenario-query {
+            font-style: italic;
+            font-size: 13px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .thinking-message {
+            background-color: #E6F3FF;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            color: #1E90FF;
+            font-style: italic;
+            text-align: center;
+            border: 1px dashed #1E90FF;
+            font-weight: 500;
+        }
+
+        .map-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #E6F3FF 0%, #B3D9FF 100%);
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(30, 144, 255, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .map-legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 100px;
+            background: linear-gradient(to bottom, #32CD32, #FFFF00, #FFA500, #FF4500);
+            border: 2px solid #1E90FF;
+            border-radius: 5px;
+        }
+
+        .legend-labels {
+            position: absolute;
+            top: 20px;
+            right: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100px;
+            font-size: 10px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .what-if-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #1E90FF;
+            width: 280px;
+        }
+
+        .what-if-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E90FF;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .condition-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
+        }
+
+        .condition-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            min-width: 80px;
+        }
+
+        .condition-slider {
+            flex: 1;
+            margin: 0 15px;
+            height: 6px;
+            background: linear-gradient(to right, #32CD32 0%, #FFFF00 50%, #FF4500 100%);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .condition-slider::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            width: 14px;
+            height: 14px;
+            background: #1E90FF;
+            border: 2px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateX(-50%);
+        }
+
+        .condition-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1E90FF;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .progress-indicator {
+            background-color: #E6F3FF;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid #1E90FF;
+        }
+
+        .progress-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1E90FF;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1E90FF 0%, #4169E1 100%);
+            width: 50%;
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.3s ease;
+        }
+
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .what-if-button {
+            width: 100%;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .what-if-button:hover {
+            background-color: #1873CC;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            min-height: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            background-color: #1E90FF;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background-color: #1873CC;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background-color: #1E90FF;
+            text-align: right;
+            color: white;
+            margin-left: 40px;
+        }
+
+        .ai-message {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border: 1px solid #E0E0E0;
+            margin-right: 40px;
+        }
+
+        .burning-index {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF4500;
+            margin-bottom: 8px;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(30, 144, 255, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .map-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .zone-7 {
+            fill: #FF4500;
+            stroke: #1E90FF;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .zone-7:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: #1E90FF;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip.active {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 70px 20px 20px 20px; /* Adjusted for nav bar */
+            }
+
+            .nav-bar {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+
+            .main-interface {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .map-interface,
+            .chat-interface {
+                width: 100%;
+                height: 300px;
+            }
+
+            .scenario-tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div>
+            <a href="../index.html">← Back to Architecture</a> 
+            | 
+            <a href="../../../README.md">Repository</a>
+        </div>
+        <div class="demo-badge">🔥 LIVE DEMO</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="title">RisenOne Fire Risk AI</div>
+            <div class="scenario-tabs">
+                <div class="tab active" data-scenario="1">Current Assessment</div>
+                <div class="tab" data-scenario="2">5-Day Forecast</div>
+                <div class="tab" data-scenario="3">Multi-Region</div>
+            </div>
+        </div>
+
+        <div class="main-interface">
+            <div class="map-interface">
+                <div class="map-content">
+                    <div class="map-controls">
+                        <span id="timestamp">Updated: 12:05 AM PDT, June 10, 2025</span>
+                    </div>
+                    
+                    <div class="legend-labels">
+                        <span>LOW</span>
+                        <span>HIGH</span>
+                        <span>V.HIGH</span>
+                        <span>EXTREME</span>
+                    </div>
+                    <div class="map-legend"></div>
+
+                    <svg class="map-svg" viewBox="0 0 900 500">
+                        <!-- More realistic US Map outline -->
+                        <!-- Continental US -->
+                        <path d="M150,220 L180,200 L220,180 L280,170 L350,160 L420,155 L480,160 L540,165 L600,170 L660,175 L720,180 L750,200 L770,230 L780,260 L770,290 L750,320 L720,340 L680,350 L640,355 L600,350 L560,345 L520,340 L480,335 L440,330 L400,325 L360,320 L320,315 L280,310 L240,305 L200,280 L170,250 L150,220 Z" 
+                              fill="#E8F4F8" stroke="#1E90FF" stroke-width="2"/>
+                        
+                        <!-- Florida -->
+                        <path d="M650,320 L680,330 L700,350 L720,370 L710,380 L690,375 L670,365 L650,350 Z" 
+                              fill="#E8F4F8" stroke="#1E90FF" stroke-width="1"/>
+                        
+                        <!-- Texas -->
+                        <path d="M400,280 L450,275 L480,285 L500,300 L510,320 L500,340 L480,350 L450,345 L420,340 L400,320 L380,300 L390,280 Z" 
+                              fill="#E8F4F8" stroke="#1E90FF" stroke-width="1"/>
+                        
+                        <!-- California -->
+                        <path d="M150,220 L170,250 L180,280 L170,320 L160,350 L150,380 L140,350 L135,320 L140,280 L145,250 L150,220 Z" 
+                              fill="#E8F4F8" stroke="#1E90FF" stroke-width="1"/>
+                        
+                        <!-- State boundaries (simplified grid) -->
+                        <g stroke="#1E90FF" stroke-width="0.5" opacity="0.3">
+                            <line x1="220" y1="160" x2="220" y2="320"/>
+                            <line x1="320" y1="155" x2="320" y2="325"/>
+                            <line x1="420" y1="155" x2="420" y2="330"/>
+                            <line x1="520" y1="160" x2="520" y2="340"/>
+                            <line x1="620" y1="165" x2="620" y2="345"/>
+                            <line x1="200" y1="200" x2="750" y2="200"/>
+                            <line x1="180" y1="240" x2="770" y2="250"/>
+                            <line x1="190" y1="280" x2="760" y2="290"/>
+                        </g>
+                        
+                        <!-- Fire Risk Heatmap Overlays -->
+                        <!-- Northern Rockies - Zone 7 -->
+                        <rect x="320" y="180" width="80" height="60" fill="#FF4500" opacity="0.8" rx="10" class="zone-7" id="zone7"/>
+                        <text x="360" y="215" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Zone 7</text>
+                        
+                        <!-- Southern California fires -->
+                        <rect x="140" y="280" width="60" height="50" fill="#FFA500" opacity="0.7" rx="8" id="socal" style="display:none"/>
+                        <text x="170" y="310" text-anchor="middle" fill="white" font-weight="bold" font-size="12">SoCal</text>
+                        
+                        <!-- Additional risk zones for visual interest -->
+                        <rect x="450" y="200" width="50" height="40" fill="#FFFF00" opacity="0.6" rx="5"/>
+                        <rect x="550" y="220" width="40" height="35" fill="#32CD32" opacity="0.5" rx="5"/>
+                        <rect x="650" y="240" width="45" height="30" fill="#FFFF00" opacity="0.6" rx="5"/>
+                    </svg>
+
+                    <div class="what-if-controls">
+                        <div class="what-if-title">What-if Scenarios</div>
+                        
+                        <div class="condition-row">
+                            <span class="condition-label">No Rain</span>
+                            <div class="condition-slider" onclick="adjustCondition(this, 'rain')"></div>
+                            <span class="condition-value">50%</span>
+                        </div>
+                        
+                        <div class="condition-row">
+                            <span class="condition-label">Wind Speed</span>
+                            <div class="condition-slider" onclick="adjustCondition(this, 'wind')"></div>
+                            <span class="condition-value">VERY HIGH</span>
+                        </div>
+                        
+                        <div class="progress-indicator">
+                            <div class="progress-title">Analysis Progress</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill">
+                                    <div class="progress-percentage">50%</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="what-if-button" onclick="runWhatIfAnalysis()">Run Analysis</button>
+                    </div>
+
+                    <div class="tooltip" id="tooltip"></div>
+                </div>
+
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="spinner"></div>
+                    <span id="loadingText">Processing your request...</span>
+                </div>
+            </div>
+
+            <div class="chat-interface">
+                <div class="scenario-flow-container" id="scenarioFlow">
+                    <div class="scenario-flow-title">🎯 Complete Demo Flow</div>
+                    
+                    <button class="scenario-button" onclick="runScenario(1)">
+                        <span class="scenario-number">1</span>
+                        Current Fire Danger Assessment
+                        <div class="scenario-query">"What's the current fire danger in Zone 7?"</div>
+                    </button>
+                    
+                    <button class="scenario-button" onclick="runScenario(2)">
+                        <span class="scenario-number">2</span>
+                        Multi-Day Predictive Analysis
+                        <div class="scenario-query">"How will fire risk change over the next 5 days if no rain falls?"</div>
+                    </button>
+                    
+                    <button class="scenario-button" onclick="runScenario(3)">
+                        <span class="scenario-number">3</span>
+                        Complex Multi-Region Analysis
+                        <div class="scenario-query">"With active fires in Southern California and current conditions in Northern Rockies, what's the risk of new ignitions affecting Zone 7?"</div>
+                    </button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        Welcome to RisenOne Fire Risk AI! Click any demo query above or ask your own questions about fire danger assessments, predictions, or multi-region analysis.
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chatInput" 
+                           placeholder="Ask about fire risk..." 
+                           onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="send-button" onclick="sendMessage()">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = 1;
+        let isProcessing = false;
+
+        // Scenario data
+        const scenarios = {
+            1: {
+                title: "Current Fire Danger Assessment",
+                query: "What's the current fire danger in Zone 7?",
+                thinkingMessage: "Let's assess the current fire danger in Zone 7. Give me a moment to process...",
+                response: {
+                    burningIndex: "Burning Index: 85 (EXTREME)",
+                    description: "Current conditions indicate extreme fire danger in Zone 7.",
+                    recommendation: "Position crews near high-risk areas immediately."
+                },
+                processingTime: 3000,
+                technicalExplanation: {
+                    title: "🔧 What Just Happened - Technical Flow:",
+                    steps: [
+                        "Chat Interface routed query to Root Coordinator in Vertex AI Multi-Agent System",
+                        "Weather Analysis Agent fetched real-time data from Weather.gov API (temp, humidity, wind)",
+                        "Fire Risk Agent used Fire Calculation Engine: Dead Fuel Moisture = f(RH, T, rain)",
+                        "Calculated Spread Component (SC = 0.560 × ROS) and Energy Release Component (ERC = 2 × (1 - FM))",
+                        "Computed Burning Index (BI = 10 × SC × ERC) = 85 (EXTREME level)",
+                        "Map Interface integrated Geographic Data to generate heatmap overlay",
+                        "15-second response replaces 3-4 hour manual process!"
+                    ]
+                }
+            },
+            2: {
+                title: "Multi-Day Predictive Analysis", 
+                query: "How will fire risk change over the next 5 days if no rain falls?",
+                thinkingMessage: "Sure, let's predict the fire risk in Zone 7 over the next 5 days with no rain. Processing now...",
+                response: {
+                    burningIndex: "5-Day Forecast: HIGH → EXTREME",
+                    description: "Day 1: HIGH (65) → Day 3: VERY HIGH (75) → Day 5: EXTREME (90)",
+                    recommendation: "Pre-position resources by Day 3. Consider evacuation planning."
+                },
+                processingTime: 4000,
+                technicalExplanation: {
+                    title: "🔧 What Just Happened - Technical Flow:",
+                    steps: [
+                        "Root Coordinator tasked Weather Analysis Agent to retrieve 5-day forecast from Weather.gov API",
+                        "Fire Risk Agent used drying models to project fuel moisture evolution day-by-day",
+                        "Fire Calculation Engine iterated through SC, ERC, and BI calculations for each day",
+                        "Predictive algorithms: Day 1 (BI=65), Day 3 (BI=75), Day 5 (BI=90)",
+                        "Map Simulation Interface visualized temporal progression with Geographic Data",
+                        "Visualization Components created interactive day-by-day breakdown",
+                        "25-second predictive analysis beyond manual forecasting capabilities!"
+                    ]
+                }
+            },
+            3: {
+                title: "Complex Multi-Region Analysis",
+                query: "With active fires in Southern California and current conditions in Northern Rockies, what's the risk of new ignitions affecting Zone 7?",
+                thinkingMessage: "Let's analyze the multi-region fire risk. This might take a moment...",
+                response: {
+                    burningIndex: "Multi-Region Risk Assessment",
+                    description: "Southern California fires creating atmospheric instability. Zone 7 ignition probability: 30%.",
+                    recommendation: "Enhanced monitoring recommended. Cross-regional resource coordination advised."
+                },
+                processingTime: 5000,
+                technicalExplanation: {
+                    title: "🔧 What Just Happened - Technical Flow:",
+                    steps: [
+                        "Root Coordinator engaged Weather Analysis Agent for Northern Rockies conditions",
+                        "Gemini 2.5 Pro Integration Agent processed synthetic Southern California fire data",
+                        "Fire Risk Agent assessed cross-regional ignition risks using advanced correlation models",
+                        "Multi-region Fire Calculation Engine factored atmospheric instability effects",
+                        "In-Memory Data Layer enabled rapid cross-referencing of weather + geographic data",
+                        "Map Simulation Interface created comprehensive multi-region overlay visualization",
+                        "30-second sophisticated analysis demonstrates AI-powered strategic insights!"
+                    ]
+                }
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            updateScenario(1);
+        });
+
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const scenario = parseInt(this.dataset.scenario);
+                    switchTab(scenario);
+                });
+            });
+
+            // What-if controls setup
+            setupWhatIfControls();
+
+            // Zone hover effects
+            document.getElementById('zone7').addEventListener('mouseenter', showTooltip);
+            document.getElementById('zone7').addEventListener('mouseleave', hideTooltip);
+            document.getElementById('zone7').addEventListener('click', showZoneDetails);
+        }
+
+        function switchTab(scenario) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`[data-scenario="${scenario}"]`).classList.add('active');
+            currentScenario = scenario;
+            updateScenario(scenario);
+        }
+
+        function updateScenario(scenario) {
+            const zone7 = document.getElementById('zone7');
+            const socal = document.getElementById('socal');
+            
+            // Reset map
+            zone7.style.fill = '#FF4500'; // Default EXTREME for demo
+            
+            switch(scenario) {
+                case 1:
+                    zone7.style.fill = '#FF4500'; // EXTREME
+                    socal.style.display = 'none';
+                    break;
+                case 2:
+                    zone7.style.fill = '#FFA500'; // VERY HIGH initially
+                    socal.style.display = 'none';
+                    break;
+                case 3:
+                    zone7.style.fill = '#FFFF00'; // HIGH
+                    socal.style.display = 'block';
+                    socal.style.fill = '#FF4500'; // Active fires
+                    break;
+            }
+
+            // Scenario switching updates are handled by the tab system
+        }
+
+        function runScenario(scenarioNumber) {
+            if (isProcessing) return;
+            
+            // Switch to the correct scenario tab
+            switchTab(scenarioNumber);
+            
+            // Get scenario data
+            const scenario = scenarios[scenarioNumber];
+            
+            // Add user message
+            addMessage(scenario.query, 'user');
+            
+            // Add thinking message
+            setTimeout(() => {
+                addMessage(`<div class="thinking-message">${scenario.thinkingMessage}</div>`, 'ai');
+            }, 500);
+            
+            // Process the query
+            processScenarioQuery(scenario);
+        }
+
+        function processScenarioQuery(scenario) {
+            isProcessing = true;
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            // Show loading
+            loadingOverlay.classList.add('active');
+            
+            // Simulate processing time
+            setTimeout(() => {
+                loadingOverlay.classList.remove('active');
+                
+                // Generate response
+                const response = `
+                    <div class="burning-index">${scenario.response.burningIndex}</div>
+                    <div>${scenario.response.description}</div>
+                    <div style="margin-top: 8px; font-weight: 500;">${scenario.response.recommendation}</div>
+                `;
+                
+                addMessage(response, 'ai');
+
+                // Add technical explanation after a brief pause
+                setTimeout(() => {
+                    const technicalResponse = `
+                        <div class="technical-explanation">
+                            <h5>${scenario.technicalExplanation.title}</h5>
+                            <ul>
+                                ${scenario.technicalExplanation.steps.map(step => `<li>${step}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    addMessage(technicalResponse, 'ai');
+                }, 1000);
+                
+                // Update map based on scenario
+                animateMapResponse();
+                
+                isProcessing = false;
+            }, scenario.processingTime);
+        }
+
+        function sendMessage() {
+            if (isProcessing) return;
+            
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            input.value = '';
+            
+            processQuery(message);
+        }
+
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            messageDiv.innerHTML = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function processQuery(query) {
+            isProcessing = true;
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const scenario = scenarios[currentScenario];
+            
+            // Show loading
+            loadingOverlay.classList.add('active');
+            
+            // Simulate processing time
+            setTimeout(() => {
+                loadingOverlay.classList.remove('active');
+                
+                // Generate response
+                const response = `
+                    <div class="burning-index">${scenario.response.burningIndex}</div>
+                    <div>${scenario.response.description}</div>
+                    <div style="margin-top: 8px; font-weight: 500;">${scenario.response.recommendation}</div>
+                `;
+                
+                addMessage(response, 'ai');
+
+                // Add technical explanation
+                setTimeout(() => {
+                    const technicalResponse = `
+                        <div class="technical-explanation">
+                            <h5>${scenario.technicalExplanation.title}</h5>
+                            <ul>
+                                ${scenario.technicalExplanation.steps.map(step => `<li>${step}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    addMessage(technicalResponse, 'ai');
+                }, 1000);
+                
+                // Update map based on scenario
+                animateMapResponse();
+                
+                isProcessing = false;
+            }, scenario.processingTime);
+        }
+
+        function animateMapResponse() {
+            const zone7 = document.getElementById('zone7');
+            
+            // Animate zone highlighting
+            zone7.style.transform = 'scale(1.1)';
+            zone7.style.filter = 'brightness(1.2)';
+            
+            setTimeout(() => {
+                zone7.style.transform = 'scale(1)';
+                zone7.style.filter = 'brightness(1)';
+            }, 1000);
+        }
+
+        function showTooltip(event) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = "Dead Fuel Moisture: 10%<br>Wind: 15 mph<br>Temperature: 85°F";
+            tooltip.style.left = event.pageX + 10 + 'px';
+            tooltip.style.top = event.pageY - 10 + 'px';
+            tooltip.classList.add('active');
+        }
+
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('active');
+        }
+
+        function showZoneDetails() {
+            const detailMessage = `
+                <div style="font-weight: 500;">Zone 7 Details:</div>
+                <div>• Dead Fuel Moisture: 10%</div>
+                <div>• Wind Speed: 15 mph</div>
+                <div>• Temperature: 85°F</div>
+                <div>• Humidity: 20%</div>
+                <div>• Risk Level: EXTREME</div>
+            `;
+            addMessage(detailMessage, 'ai');
+        }
+
+        function setupWhatIfControls() {
+            // Animate progress bar on load
+            setTimeout(() => {
+                animateProgress();
+            }, 2000);
+        }
+
+        function adjustCondition(slider, type) {
+            // Simple visual feedback for clicking sliders
+            slider.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                slider.style.transform = 'scale(1)';
+            }, 200);
+
+            // Update progress
+            animateProgress();
+        }
+
+        function animateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const percentage = Math.floor(Math.random() * 40) + 30; // Random between 30-70%
+            
+            progressFill.style.width = percentage + '%';
+            progressFill.querySelector('.progress-percentage').textContent = percentage + '%';
+        }
+
+        function runWhatIfAnalysis() {
+            if (isProcessing) return;
+            
+            // Add a what-if analysis message
+            addMessage("Running what-if analysis with adjusted conditions...", 'user');
+            
+            setTimeout(() => {
+                const analysisResult = `
+                    <div class="burning-index">What-If Analysis Complete</div>
+                    <div>With no rain conditions: Risk increases to EXTREME (95)</div>
+                    <div style="margin-top: 8px; font-weight: 500;">Recommend immediate evacuation planning for high-risk zones.</div>
+                `;
+                addMessage(analysisResult, 'ai');
+                
+                // Animate progress to completion
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressFill').querySelector('.progress-percentage').textContent = '100%';
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 

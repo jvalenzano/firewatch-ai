@@ -1,11 +1,76 @@
-# macOS
-.DS_Store
-
-# Python
+# Python virtual environment
+venv/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables and secrets
+.env
+agent-client-access-key.json
+*-access-key.json
+*.key
+*.pem
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files and temporary scripts
+test_*.py
+*_test.py
+*_debug.py
+emergency-fix-code.md
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Backup files
+*.backup
+*-backup.md
+*_backup.*
+
+# Documentation drafts
+docs/poc-*
+.cursor/lessons-learned.md
+.cursor/project-config.md
+.cursor/scratchpad-backup.md
+
+# Agent build artifacts
+agent/dist/
+
+# Temporary files
+*.tmp
+*.temp
 
 # Developer-only files
 developer/
