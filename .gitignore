@@ -86,3 +86,4 @@ activate_env.sh
 agent/activate_env.sh
 activate_env.sh
 agent/activate_env.sh
+*.Zone.Identifier
