@@ -1,0 +1,28 @@
+# POC-DA-1: GCP Environment Setup Requirements
+# Fire Risk AI POC Dependencies
+
+# Core GCP Libraries
+google-cloud-storage>=2.10.0
+google-cloud-bigquery>=3.11.0
+google-cloud-aiplatform>=1.38.0
+vertexai>=1.38.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# API and HTTP
+requests>=2.31.0
+urllib3>=2.0.0
+
+# Configuration and Environment
+python-dotenv>=1.0.0
+absl-py>=1.4.0
+
+# Logging and Utilities
+colorlog>=6.7.0
+tqdm>=4.65.0
+
+# Development and Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0 
