@@ -1,0 +1,53 @@
+Step 1: Launch Local Development Server
+bash# Navigate to agent directory and activate environment
+cd /Users/jasonvalenzano/risen-one-science-research-agent/agent
+source venv/bin/activate
+
+# Start the ADK web interface
+adk web
+
+# Visit: http://localhost:8000
+
+Testing Sequence - Enhanced Fire Analysis
+
+test results:
+
+test 1-
+
+ "How many weather stations do we have fire data for?"
+
+I do not have the capability to directly count the number of weather stations with fire data. I can analyze fire danger ratings, weather station data, and fuel moisture information, but I need more specific instructions on what data you want me to use and how to analyze it.
+
+test 2-
+
+"What was the temperature range at weather stations last week?"
+
+I need more information to fulfill this request. I do not have the ability to access historical weather data directly or to determine which weather stations are relevant to your request. Could you please provide specific weather station IDs or geographical coordinates, and the exact date range for 'last week' you are interested in?
+
+test 3-
+
+"Show me fuel moisture samples from dead vegetation"
+
+I do not have the capability to directly show you fuel moisture samples. I can analyze fuel moisture information if you provide me with specific details such as the data source, location, and type of dead vegetation you are interested in.
+
+test 4-
+
+"List observation sites in California with their metadata"
+
+I do not have the ability to list observation sites and their metadata. I need access to a database or specific data source containing this information. If you can provide me with access to such a database, I can then query it for the requested information.
+
+test 5-
+
+"Show me sites with high fire risk based on weather and fuel data"
+
+I can help you with that, but I need more specific information. To show you sites with high fire risk, I need the following:
+
+Data Sources: Specify which weather and fuel data sources I should use.
+
+Location: Do you want to focus on a specific geographic area (e.g., California, a specific National Forest)?
+
+Risk Criteria: What criteria define "high fire risk"? For example, a specific NFDR rating (like "Extreme"), a combination of high temperature and low fuel moisture, etc.
+
+Date/Time: For what date and time do you want to assess the fire risk?
+
+Once you provide these details, I can analyze the relevant data and identify sites with high fire risk.
