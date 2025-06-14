@@ -36,7 +36,7 @@ def setup_before_agent_call(callback_context: CallbackContext) -> None:
 
 
 database_agent = Agent(
-    model=os.getenv("BIGQUERY_AGENT_MODEL"),
+    model=os.getenv("BIGQUERY_AGENT_MODEL", "gemini-2.0-flash-001"),
     name="database_agent",
     instruction=return_instructions_bigquery(),
     tools=[
@@ -48,5 +48,9 @@ database_agent = Agent(
         tools.run_bigquery_validation,
     ],
     before_agent_callback=setup_before_agent_call,
-    generate_content_config=types.GenerateContentConfig(temperature=0.01),
+    generate_content_config=types.GenerateContentConfig(
+        temperature=0.1,  # Faster responses
+        max_output_tokens=1024,  # Reduce for speed
+        top_p=0.9
+    ),
 )

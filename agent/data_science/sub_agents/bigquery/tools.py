@@ -70,7 +70,7 @@ def update_database_settings():
         bq_dataset_id = get_env_var("BQ_DATASET_ID")
     except (ValueError, KeyError):
         bq_project_id = "risenone-ai-prototype"  # EMERGENCY FALLBACK
-        bq_dataset_id = "poc_fire_data"  # EMERGENCY FALLBACK
+        bq_dataset_id = "fire_risk_poc"  # EMERGENCY FALLBACK
     
     ddl_schema = get_bigquery_schema(
         bq_dataset_id,
@@ -194,10 +194,11 @@ You are a BigQuery SQL expert tasked with answering user's questions about BigQu
 
 **Fire Risk Data Expertise:**
 If the question relates to fire risk, fire danger, weather stations, NFDR (National Fire Danger Rating), burning index, fuel moisture, or fire weather, prioritize using fire-specific tables:
-- `poc_fire_data.nfdr_daily_summary` - Fire danger calculations and burning indices
-- `poc_fire_data.station_metadata` - Weather station locations and classifications  
-- `poc_fire_data.weather_daily_summary` - Weather observations affecting fire risk
-- `poc_fire_data.fuel_samples` - Fuel moisture field measurements
+- `fire_risk_poc.nfdr_daily_summary` - Fire danger calculations and burning indices
+- `fire_risk_poc.station_metadata` - Weather station locations and classifications  
+- `fire_risk_poc.weather_daily_summary` - Weather observations affecting fire risk
+- `fire_risk_poc.fuel_samples` - Fuel moisture field measurements
+- `fire_risk_poc.site_metadata` - Observation site information and details
 
 **Fire Data Relationships:**
 - Join stations and NFDR data on `station_id`

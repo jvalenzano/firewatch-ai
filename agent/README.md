@@ -149,7 +149,7 @@ Field Data       & Security      Earth Engine  Natural Lang. Interactive UI
 ```bash
 # Core Configuration
 GOOGLE_CLOUD_PROJECT="risenone-ai-prototype"
-BQ_DATASET_ID="risenone_fire_analysis"
+BQ_DATASET_ID="fire_risk_poc"
 
 # Agent Models
 FIRE_COORDINATOR_MODEL="gemini-2.0-flash-001"
@@ -164,11 +164,13 @@ WEATHER_UPDATE_INTERVAL=3600
 ```
 
 ### BigQuery Schema
-The system expects these tables in your BigQuery dataset:
-* `weather_station_data` - Real-time weather observations
-* `fire_danger_indices` - Calculated fire danger metrics
-* `field_observations` - Scientist field data collection
-* `fire_risk_predictions` - ML model outputs and forecasts
+The system expects these tables in your BigQuery dataset (`fire_risk_poc`):
+* `station_metadata` - Weather station locations and classifications (278 stations)
+* `nfdr_daily_summary` - Fire danger calculations and burning indices (9,235 records)
+* `weather_daily_summary` - Weather observations affecting fire risk (3,866 records)
+* `fuel_samples` - Fuel moisture field measurements (2,442 records)
+* `site_metadata` - Observation site details and information (1,565 records)
+* **Total Records:** 17,386 accessible for comprehensive fire analysis
 
 ## 🧪 Testing Fire Analysis
 

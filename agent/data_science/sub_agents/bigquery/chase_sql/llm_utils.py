@@ -73,11 +73,13 @@ GEMINI_URL = (
     "projects/{GCP_PROJECT}/locations/{region}/publishers/google/models/{model_name}"
 )
 
-aiplatform.init(
-    project=GCP_PROJECT,
-    location=GCP_LOCATION,
-)
-vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
+# Only initialize aiplatform if environment variables are set
+if GCP_PROJECT and GCP_LOCATION:
+    aiplatform.init(
+        project=GCP_PROJECT,
+        location=GCP_LOCATION,
+    )
+    vertexai.init(project=GCP_PROJECT, location=GCP_LOCATION)
 
 
 def retry(max_attempts=8, base_delay=1, backoff_factor=2):

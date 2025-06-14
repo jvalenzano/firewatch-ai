@@ -28,12 +28,13 @@ from data_science.utils.utils import get_env_var
 logger = logging.getLogger(__name__)
 
 # Fire data configuration
-FIRE_DATASET_ID = "poc_fire_data"
+FIRE_DATASET_ID = "fire_risk_poc"
 FIRE_TABLES = {
     'nfdr': 'nfdr_daily_summary',
     'stations': 'station_metadata',
     'weather': 'weather_daily_summary',
-    'fuel_samples': 'fuel_samples'
+    'fuel_samples': 'fuel_samples',
+    'site_metadata': 'site_metadata'
 }
 
 def get_fire_database_settings() -> Dict:
