@@ -44,7 +44,7 @@ And receive immediate, comprehensive analysis including:
 
 ![Architecture Overview](docs/architecture/diagrams/simple-overview.svg)
 
-**📊 [View Detailed Multi-Agent System Diagram →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/diagrams/multi-agent-detail.svg)**
+**📊 [View Detailed Multi-Agent System Diagram →](https://github.techtrend.us/USDA-AI-Innovation-Hub/risen-one-science-research-agent/blob/phase-ii/docs/architecture/diagrams/multi-agent-detail.svg)**
 
 </div>
 
