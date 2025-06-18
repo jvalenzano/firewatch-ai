@@ -10,9 +10,9 @@ The RisenOne Fire Analysis Agent represents a collaborative effort between **Tec
 
 <div align="center">
 
-[![Complete Architecture](https://img.shields.io/badge/🏗️_Complete_Architecture-Interactive_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risenone_architecture.html)
+[![Complete Architecture](https://img.shields.io/badge/🏗️_Complete_Architecture-Interactive_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/interactive/risenone_architecture.html)
 
-📚 **[Complete Architecture Documentation →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/)**
+📚 **[Complete Architecture Documentation →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/)**
 
 </div>
 
