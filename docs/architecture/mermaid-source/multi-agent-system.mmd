@@ -1,0 +1,168 @@
+---
+title: RisenOne Fire Analysis Agent - Multi-Agent Architecture
+---
+graph TB
+    %% User Interface Layer
+    User[👨‍🔬 Forest Service Scientist] 
+    WebUI[🌐 ADK Web Interface<br/>localhost:8000]
+    CLI[💻 CLI Interface<br/>adk run data_science]
+    
+    User --> WebUI
+    User --> CLI
+    
+    %% Core Agent System - Vertex AI Platform
+    subgraph VertexAI [🔥 Vertex AI Agent Engine - GCP]
+        direction TB
+        
+        subgraph RootAgent [📋 Fire Analysis Coordinator]
+            direction TB
+            Router[🧠 Query Router<br/>Intent Classification]
+            Context[📝 Conversation Manager<br/>Session Memory]
+            Formatter[📊 Response Formatter<br/>User-friendly Output]
+        end
+        
+        subgraph SubAgents [🤖 Specialized Sub-Agents]
+            direction TB
+            
+            subgraph DatabaseAgent [💾 Database Agent]
+                NL2SQL[🔄 Natural Language to SQL<br/>Fire-optimized queries]
+                QueryOptimizer[⚡ Query Optimizer<br/>BigQuery performance]
+                DataValidator[✅ Data Validator<br/>Safety-critical checks]
+            end
+            
+            subgraph DataIntegration [🔗 Data Integration Engine]
+                SyntheticGen[🎲 Synthetic Data Generator<br/>Realistic test scenarios]
+                HistoricalData[📚 Historical Data Manager<br/>Fire occurrence records]
+                DataMesh[🕸️ Data Mesh Interface<br/>AWS integration bridge]
+            end
+            
+            subgraph Geographic [🗺️ Geographic Foundation]
+                GeoSpatial[📍 Geospatial Analysis<br/>Location-based queries]
+                Mapping[🗺️ Interactive Mapping<br/>Fire zone visualization]
+                Coordinates[📐 Coordinate Systems<br/>Multi-format support]
+            end
+            
+            subgraph Analytics [📊 Analytics Agent]
+                StatAnalysis[📈 Statistical Analysis<br/>Fire trend modeling]
+                Correlation[🔗 Correlation Engine<br/>Weather-fire relationships]
+                Reporting[📋 Report Generation<br/>Executive summaries]
+            end
+            
+            subgraph BQML [🧠 BigQuery ML Agent]
+                MLPipelines[🔬 ML Pipelines<br/>Fire spread prediction]
+                ModelTraining[🎯 Model Training<br/>Historical fire data]
+                Prediction[🔮 Prediction Engine<br/>Risk forecasting]
+            end
+        end
+        
+        %% Fire Calculations Module
+        subgraph FireCalc [🔥 Fire Calculations Engine]
+            direction TB
+            NFDRS[📊 NFDRS Engine<br/>National Fire Danger Rating]
+            FuelMoisture[💧 Fuel Moisture Calculator<br/>Dead/Live fuel analysis]
+            SpreadComponent[🌬️ Spread Component<br/>Wind-driven calculations]
+            BurningIndex[🔥 Burning Index<br/>Fire intensity predictions]
+            DangerRating[⚠️ Danger Classification<br/>LOW → EXTREME ratings]
+        end
+    end
+    
+    %% External Data Sources & Integration Layer
+    subgraph AWS [☁️ AWS Data Platform - Existing Infrastructure]
+        direction TB
+        
+        subgraph WeatherData [🌤️ Weather Data Sources]
+            NOAA[🌡️ NOAA Weather Service<br/>Real-time conditions]
+            Forecasts[📅 7-Day Forecasts<br/>Temperature, humidity, wind]
+            Historical[📊 Historical Weather<br/>Trend analysis]
+        end
+        
+        subgraph FireSystems [🔥 Fire Management Systems]
+            WFMI[🚨 Wildfire Management Info<br/>Active fire incidents]
+            CrewTracking[👥 Crew Tracking<br/>Resource deployment]
+            EquipmentDB[🚛 Equipment Database<br/>Asset management]
+        end
+        
+        subgraph DataMeshAWS [🕸️ Data Mesh Platform]
+            DataLake[🏞️ Data Lake<br/>Structured/unstructured data]
+            Analytics[📊 Analytics Services<br/>Existing BI tools]
+            Security[🔐 Security Layer<br/>IAM, encryption]
+        end
+    end
+    
+    %% BigQuery Data Layer
+    subgraph BigQuery [📊 BigQuery - Fire Risk POC Dataset]
+        direction TB
+        FireOccurrence[🔥 Fire Occurrence Table<br/>Historical incidents]
+        WeatherStations[🌡️ Weather Station Data<br/>Meteorological records]
+        RiskMetrics[📈 Risk Metrics<br/>Calculated danger indices]
+        MLTrainingData[🎯 ML Training Data<br/>Feature engineering]
+    end
+    
+    %% Connections - Agent Communication
+    WebUI --> RootAgent
+    CLI --> RootAgent
+    
+    Router --> DatabaseAgent
+    Router --> DataIntegration
+    Router --> Geographic
+    Router --> Analytics
+    Router --> BQML
+    Router --> FireCalc
+    
+    Context <--> Router
+    Formatter <-- Router
+    
+    %% Fire Calculations Flow
+    NFDRS --> FuelMoisture
+    FuelMoisture --> SpreadComponent
+    SpreadComponent --> BurningIndex
+    BurningIndex --> DangerRating
+    
+    %% Data Flow Connections
+    DatabaseAgent --> BigQuery
+    DataIntegration --> DataMeshAWS
+    Geographic --> BigQuery
+    Analytics --> BigQuery
+    BQML --> MLTrainingData
+    
+    %% AWS Integration Bridge
+    DataMesh --> WeatherData
+    DataMesh --> FireSystems
+    DataMesh --> DataMeshAWS
+    
+    %% External Data Ingestion
+    NOAA --> WeatherStations
+    WFMI --> FireOccurrence
+    Historical --> RiskMetrics
+    
+    %% AI Model Configuration
+    subgraph ModelConfig [🤖 AI Model Configuration]
+        RootModel[🧠 Root Agent Model<br/>gemini-2.0-flash-001]
+        SubModel[🤖 Sub-Agent Models<br/>gemini-2.0-flash-001]
+        ModelParams[⚙️ Model Parameters<br/>Temperature: 0.3, Top-p: 0.8]
+    end
+    
+    RootAgent -.-> RootModel
+    SubAgents -.-> SubModel
+    
+    %% Deployment Pipeline
+    subgraph Deployment [🚀 Deployment Pipeline]
+        ADKBuild[📦 ADK Build Process<br/>poetry build]
+        VertexDeploy[☁️ Vertex AI Deployment<br/>Agent Engine]
+        Monitoring[📊 Production Monitoring<br/>Performance & errors]
+    end
+    
+    %% Styling
+    classDef userLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef agentLayer fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataLayer fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef fireCalc fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+    classDef awsLayer fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef deployment fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class User,WebUI,CLI userLayer
+    class VertexAI,RootAgent,SubAgents,DatabaseAgent,DataIntegration,Geographic,Analytics,BQML agentLayer
+    class BigQuery,FireOccurrence,WeatherStations,RiskMetrics,MLTrainingData dataLayer
+    class FireCalc,NFDRS,FuelMoisture,SpreadComponent,BurningIndex,DangerRating fireCalc
+    class AWS,WeatherData,FireSystems,DataMeshAWS awsLayer
+    class Deployment,ADKBuild,VertexDeploy,Monitoring deployment

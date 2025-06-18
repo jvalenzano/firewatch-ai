@@ -1,0 +1,64 @@
+---
+title: RisenOne Fire Analysis Agent - System Overview
+---
+graph LR
+    %% User Layer
+    User[👨‍🔬 Forest Service<br/>Scientist] 
+    
+    %% Interface Layer
+    subgraph Interface [🌐 User Interface]
+        WebUI[ADK Web Interface]
+        CLI[CLI Interface]
+    end
+    
+    %% Core System
+    subgraph VertexAI [🔥 Vertex AI Agent Engine]
+        Root[📋 Fire Analysis<br/>Coordinator]
+        
+        subgraph Agents [🤖 Specialized Agents]
+            DB[💾 Database<br/>Agent]
+            DataInt[🔗 Data Integration<br/>Engine]
+            Geo[🗺️ Geographic<br/>Foundation]
+        end
+        
+        subgraph FireCalc [🔥 Fire Calculations]
+            NFDRS[📊 NFDRS Engine]
+            Danger[⚠️ Danger Rating<br/>LOW → EXTREME]
+        end
+    end
+    
+    %% Data Layer
+    subgraph AWS [☁️ AWS Platform]
+        Weather[🌤️ Weather Data]
+        FireSys[🔥 Fire Systems]
+        DataMesh[🕸️ Data Mesh]
+    end
+    
+    subgraph GCP [📊 Google Cloud]
+        BigQuery[BigQuery<br/>Fire Dataset]
+        ML[🧠 ML Models]
+    end
+    
+    %% Connections
+    User --> Interface
+    Interface --> Root
+    Root --> Agents
+    Root --> FireCalc
+    
+    DB --> BigQuery
+    DataInt --> DataMesh
+    Geo --> BigQuery
+    
+    DataMesh --> AWS
+    NFDRS --> Danger
+    
+    %% Styling
+    classDef userLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef agentLayer fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef dataLayer fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef fireCalc fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+    
+    class User,Interface userLayer
+    class VertexAI,Root,Agents,DB,DataInt,Geo agentLayer
+    class GCP,BigQuery,ML dataLayer
+    class FireCalc,NFDRS,Danger fireCalc

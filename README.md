@@ -40,16 +40,13 @@ And receive immediate, comprehensive analysis including:
 
 ## 🏗️ Architecture Overview
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────────┐
-│   AWS Platform  │◄──►│  Integration     │◄──►│   GCP AI Platform   │
-│                 │    │     Layer        │    │                     │
-│ • Data Mesh     │    │ • Authentication │    │ • Multi-Agent AI    │
-│ • Weather Data  │    │ • API Bridge     │    │ • BigQuery ML       │
-│ • Fire Systems  │    │ • Real-time Sync │    │ • Earth Engine      │
-│ • OpenLayers UI │    │ • Security       │    │ • Gemini Models     │
-└─────────────────┘    └──────────────────┘    └─────────────────────┘
-```
+<div align="center">
+
+![Architecture Overview](docs/architecture/diagrams/simple-overview.svg)
+
+**📊 [View Detailed Multi-Agent System Diagram →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/docs/architecture/diagrams/multi-agent-detail.svg)**
+
+</div>
 
 ### Key Components
 
