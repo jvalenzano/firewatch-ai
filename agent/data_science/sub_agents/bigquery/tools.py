@@ -38,6 +38,12 @@ MAX_NUM_ROWS = 80
 database_settings = None
 bq_client = None
 
+# Schema caching for performance optimization
+import time
+_schema_cache = {}
+_cache_timestamp = {}
+SCHEMA_CACHE_TTL = 300  # 5 minutes
+
 
 def get_bq_client():
     """Get BigQuery client."""
@@ -102,6 +108,7 @@ def update_database_settings():
 
 def get_bigquery_schema(dataset_id, client=None, project_id=None):
     """Retrieves schema and generates DDL with example values for a BigQuery dataset.
+    Uses caching to avoid repeated expensive schema loading operations.
 
     Args:
         dataset_id (str): The ID of the BigQuery dataset (e.g., 'my_dataset').
@@ -111,6 +118,16 @@ def get_bigquery_schema(dataset_id, client=None, project_id=None):
     Returns:
         str: A string containing the generated DDL statements.
     """
+    
+    # Check cache first for performance optimization
+    global _schema_cache, _cache_timestamp
+    cache_key = f"{project_id}.{dataset_id}"
+    current_time = time.time()
+    
+    if (cache_key in _schema_cache and 
+        cache_key in _cache_timestamp and 
+        current_time - _cache_timestamp[cache_key] < SCHEMA_CACHE_TTL):
+        return _schema_cache[cache_key]
 
     if client is None:
         client = bigquery.Client(project=project_id)
@@ -141,7 +158,7 @@ def get_bigquery_schema(dataset_id, client=None, project_id=None):
         ddl_statement = ddl_statement[:-2] + "\n);\n\n"
 
         # Add example values if available (limited to first row)
-        rows = client.list_rows(table_ref, max_results=5).to_dataframe()
+        rows = client.list_rows(table_ref, max_results=2).to_dataframe()  # Reduced for performance
         if not rows.empty:
             ddl_statement += f"-- Example values for table `{table_ref}`:\n"
             for _, row in rows.iterrows():  # Iterate over DataFrame rows
@@ -160,6 +177,10 @@ def get_bigquery_schema(dataset_id, client=None, project_id=None):
                 ddl_statement += example_row_str
 
         ddl_statements += ddl_statement
+    
+    # Cache the result for performance optimization
+    _schema_cache[cache_key] = ddl_statements
+    _cache_timestamp[cache_key] = current_time
 
     return ddl_statements
 
@@ -319,7 +340,7 @@ def run_bigquery_validation(
     try:
         # FINAL FIX: Enhanced query execution with proper response formatting
         query_job = get_bq_client().query(sql_string)
-        results = query_job.result(timeout=30)  # Add explicit timeout
+        results = query_job.result(timeout=12)  # Optimized for <10s response target
 
         if results.schema:  # Check if query returned data
             rows = [

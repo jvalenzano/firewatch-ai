@@ -94,10 +94,10 @@ def get_fire_bigquery_schema(dataset_id: str, project_id: str) -> str:
                 ddl_statement = ddl_statement[:-2] + "\n);\n\n"
                 
                 # Add sample data
-                rows = client.list_rows(table_ref, max_results=3).to_dataframe()
+                rows = client.list_rows(table_ref, max_results=1).to_dataframe()  # Reduced for performance
                 if not rows.empty:
                     ddl_statement += f"-- Sample data from {table_name}:\n"
-                    for _, row in rows.head(3).iterrows():
+                    for _, row in rows.head(1).iterrows():  # Only 1 sample row for performance
                         sample_values = []
                         for col in rows.columns:
                             value = row[col]
