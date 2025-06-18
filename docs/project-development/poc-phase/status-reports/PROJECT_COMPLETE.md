@@ -22,7 +22,7 @@ The RisenOne Fire Risk Analysis Agent project has been **successfully completed*
 ## 🎯 **Delivered Solution**
 
 ### **Production Agent**
-- **Resource ID:** `999913466485538816`
+- **Resource ID:** `6609146802375491584`
 - **Status:** OPERATIONAL ✅
 - **Capabilities:** Fire risk analysis, NFDR calculations, weather integration
 - **Data Access:** BigQuery integration with 17,386 fire records (complete dataset)
@@ -97,7 +97,7 @@ The RisenOne Fire Risk Analysis Agent project has been **successfully completed*
 
 ### **For Terry Integration**
 1. **Production Agent Access**
-   - Resource ID: `999913466485538816`
+   - Resource ID: `6609146802375491584`
    - Operational status confirmed
    - Fire data access validated
 
@@ -160,7 +160,7 @@ The RisenOne Fire Risk Analysis Agent project has been **successfully completed*
 ## 📞 **Ongoing Support**
 
 ### **System Monitoring**
-- **Resource ID:** `999913466485538816` 
+- **Resource ID:** `6609146802375491584` 
 - **Status:** Operational and monitored
 - **Platform:** Google Cloud Vertex AI (99.9% SLA)
 - **Data:** BigQuery backend with automatic scaling

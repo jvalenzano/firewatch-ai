@@ -10,13 +10,7 @@ The RisenOne Fire Analysis Agent represents a collaborative effort between **Tec
 
 <div align="center">
 
-[![Multi-Agent Architecture](https://img.shields.io/badge/🤖_Multi--Agent_Architecture-Agent_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risen_one_mas_architecture.html)
-
-[![AWS-GCP Integration](https://img.shields.io/badge/🌉_AWS--GCP_Integration-Hybrid_Architecture-4285f4?style=for-the-badge&logo=googlecloud)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risen_one_integration_architecture.html)
-
-[![Session Coordination](https://img.shields.io/badge/🧠_Session_Coordination-Agent_Memory-2ecc71?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyUzYuNDggMjIgMTIgMjJTMjIgMTcuNTIgMjIgMTJTMTcuNTIgMiAxMiAyWk0xMiAyMEM3LjU5IDIwIDQgMTYuNDEgNCAxMlM3LjU5IDQgMTIgNFMxOSA3LjU5IDIwIDEyUzE2LjQxIDIwIDEyIDIwWiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risen_one_session_coordination_example.html)
-
-[![Technical Workflow](https://img.shields.io/badge/🔧_Technical_Workflow-Data_Processing-ff6b6b?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyIDlMMTIgMkwyIDlMMTIgMTZMMjIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPg==)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risen_one_technical_workflow.html)
+[![Complete Architecture](https://img.shields.io/badge/🏗️_Complete_Architecture-Interactive_Overview-667eea?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K)](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/interactive/risenone_architecture.html)
 
 📚 **[Complete Architecture Documentation →](https://github.techtrend.us/pages/USDA-AI-Innovation-Hub/risen-one-science-research-agent/architecture/)**
 

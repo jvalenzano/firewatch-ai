@@ -1,0 +1,190 @@
+# Cursor Rules for RisenOne Fire Analysis Agent
+
+## Project Overview
+This is a production Google Cloud AI system using ADK v1.0.0 for wildfire risk analysis and fire danger calculations for the Forest Service.
+
+## Fire Calculation Standards
+
+### NFDRS Implementation
+- When implementing fire calculations, always follow NFDRS (National Fire Danger Rating System) standards
+- Clamp all calculated values to their specified ranges (e.g., fuel moisture 1-60%, spread component 0-99)
+- Include proper units in all weather-related parameters (°F, mph, inches, %)
+- Reference Forest Service formulas in comments when implementing complex calculations
+- Validate weather inputs are within reasonable ranges before calculations:
+  - Temperature: -50°F to 150°F
+  - Humidity: 0-100%
+  - Wind speed: 0-100 mph
+  - Precipitation: 0+ inches
+
+### Fire Danger Classification
+- Fire danger ratings must be one of: LOW, MODERATE, HIGH, VERY_HIGH, EXTREME
+- Always provide context for danger ratings (burning index thresholds)
+- Include fuel model information when relevant (A, B, C, or specific NFDRS codes)
+
+## Agent Development Kit (ADK) Patterns
+
+### Tool Implementation
+- All agent tools must accept `tool_context: ToolContext = None` parameter
+- Use snake_case for tool function names
+- Tool docstrings must include Args and Returns sections
+- Return formatted strings from tools, not raw data structures
+- Always handle None values for tool_context gracefully
+
+Example:
+```python
+async def calculate_fire_danger(
+    temperature: float,
+    humidity: float,
+    wind_speed: float,
+    tool_context: ToolContext = None
+) -> str:
+    """Calculate fire danger rating.
+    
+    Args:
+        temperature: Air temperature in °F
+        humidity: Relative humidity as percentage
+        wind_speed: Wind speed in mph
+        tool_context: ADK tool context
+        
+    Returns:
+        Formatted fire danger assessment
+    """
+```
+
+### Agent Communication
+- Use async/await for all agent interactions
+- Pass context properly between root agent and sub-agents
+- Handle agent communication failures gracefully
+- Log agent routing decisions for debugging
+
+### Error Handling
+- Always wrap ADK operations in try-except blocks
+- Provide user-friendly error messages for fire calculation failures
+- Log detailed errors while returning simplified messages to users
+- Include fallback values for critical calculations when possible
+
+## BigQuery Integration Patterns
+
+### Query Standards
+- Always use `get_bq_client()` wrapper, never direct BigQuery client instantiation
+- Include project fallback to "risenone-ai-prototype" for deployment
+- Limit query results to MAX_NUM_ROWS (80) to prevent timeouts
+- Use proper table joins for fire occurrence and weather data
+- Format dates consistently (YYYY-MM-DD) in all queries
+
+### Fire Data Queries
+- When querying fire data, always include relevant weather conditions
+- Use proper geographic filtering (latitude/longitude bounds)
+- Include fire size and cause information when available
+- Join with weather stations for accurate meteorological data
+
+## Code Organization
+
+### File Structure
+- Keep fire calculations in `agent/fire_calculations/` module
+- Sub-agents belong in `agent/data_science/sub_agents/`
+- Test files should mirror the source structure
+- Place deployment scripts in `deployment/` directory
+
+### Import Standards
+- Import ADK components from `google.adk`
+- Use relative imports within the project
+- Import fire calculation modules as needed: `from agent.fire_calculations import nfdrs_engine`
+- Group imports: standard library, third-party, local project
+
+## Testing Requirements
+
+### Fire Calculation Tests
+- Test all fire calculations against known NFDRS reference values
+- Validate edge cases (extreme weather conditions)
+- Test fuel moisture calculations with various inputs
+- Verify fire danger classifications are correct
+
+### Agent Integration Tests
+- Test agent routing logic with various query types
+- Validate sub-agent communication patterns
+- Test failure scenarios and error handling
+- Include BigQuery integration tests with mock data
+
+### Test Data
+- Use realistic weather data for testing (temperature, humidity, wind)
+- Include historical fire occurrence data in tests
+- Test with various fuel models and geographic locations
+- Validate calculations against Forest Service benchmarks
+
+## Documentation Standards
+
+### Code Comments
+- Document all fire formulas with references to Forest Service publications
+- Explain complex meteorological calculations step-by-step
+- Include units for all measurements in comments
+- Reference NFDRS documentation for formula sources
+
+### Function Documentation
+- Always include parameter units in docstrings
+- Provide examples for complex fire calculations
+- Explain fire danger classes and their thresholds
+- Document expected input ranges and validation
+
+Example:
+```python
+def calculate_fine_fuel_moisture(temperature: float, humidity: float) -> float:
+    """Calculate 1-hour fine fuel moisture using NFDRS formula.
+    
+    Based on Fosberg (1978) formula used in National Fire Danger Rating System.
+    
+    Args:
+        temperature: Air temperature in degrees Fahrenheit
+        humidity: Relative humidity as percentage (0-100)
+        
+    Returns:
+        Fine fuel moisture content as percentage (typically 1-60%)
+        
+    Example:
+        >>> calculate_fine_fuel_moisture(85.0, 25.0)
+        6.2
+    """
+```
+
+## Environment and Configuration
+
+### Environment Variables
+- Always check for required environment variables on startup
+- Provide clear error messages for missing configuration
+- Use fallback values for non-critical settings
+- Document all required variables in .env.example
+
+### Model Configuration
+- Use appropriate models for different agent types:
+  - Root agent: gemini-2.0-flash-001
+  - Sub-agents: gemini-2.0-flash-001 (or as configured)
+- Configure temperature and top_p for consistent responses
+- Handle model configuration failures gracefully
+
+## Performance Considerations
+
+### Query Optimization
+- Limit BigQuery result sets to prevent timeouts
+- Use appropriate indexes for fire data queries
+- Cache frequently accessed weather data when possible
+- Minimize agent communication overhead
+
+### Calculation Efficiency
+- Pre-calculate common fire danger lookup tables
+- Use vectorized operations for bulk calculations when possible
+- Cache fuel model parameters to avoid repeated lookups
+- Optimize NFDRS calculations for real-time use
+
+## Security and Production
+
+### Data Handling
+- Never log sensitive user queries or personal information
+- Sanitize all user inputs before processing
+- Use parameterized queries for all database operations
+- Validate all weather inputs before fire calculations
+
+### Production Deployment
+- Always test fire calculations in staging before production
+- Use proper resource limits for agent deployment
+- Monitor agent performance and error rates
+- Include health checks for all critical components
