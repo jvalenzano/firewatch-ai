@@ -1,0 +1,32 @@
+# GitHub Pages Configuration
+theme: null
+title: RisenOne Fire Analysis Agent
+description: AI-Powered Wildfire Risk Assessment & Fire Danger Calculations
+baseurl: ""
+url: "https://javalenzano.github.io/risen-one-science-research-agent"
+
+# Build settings
+markdown: kramdown
+exclude:
+  - agent/
+  - venv/
+  - .env
+  - "*.pyc"
+  - "__pycache__"
+  - .pytest_cache/
+  - .vscode/
+  - .cursor/
+  - deployment/
+  - tests/
+  - setup-risenone.sh
+  - setup-risenone.ps1
+  - activate_env.sh
+  - activate_env.ps1
+  - pyproject.toml
+  - poetry.lock
+  - requirements.txt
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - "*.log"
+  - docs_backup*/

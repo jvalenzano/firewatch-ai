@@ -2,6 +2,8 @@
 
 > **Modernizing Forest Service wildfire response through intelligent automation**
 
+🌐 **[View Live Documentation →](https://javalenzano.github.io/risen-one-science-research-agent/)**
+
 ## 🎯 Project Overview
 
 The RisenOne Fire Analysis Agent represents a collaborative effort between **TechTrend Inc.** and **RisenOne Consulting** to transform how Forest Service scientists analyze fire risk and make critical resource allocation decisions. Built on Google's Agent Development Kit (ADK), this system replaces time-consuming manual calculations with conversational AI that delivers instant, intelligent insights.

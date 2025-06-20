@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RisenOne Fire Risk AI - Phase III Development Roadmap</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .status-item {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background: white;
+            font-weight: bold;
+            color: #4285f4;
+            border-color: #4285f4;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .sprint-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .sprint-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sprint-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .sprint-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .sprint-duration {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .sprint-objective {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .deliverable {
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid rgba(255,255,255,0.5);
+        }
+        
+        .deliverable-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .deliverable-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .architecture-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .architecture-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .diagram-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            overflow-x: auto;
+        }
+        
+        .mermaid {
+            text-align: center;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #4285f4;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .metrics-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .timeline-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 20px 0 20px 30px;
+            border-left: 3px solid transparent;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 25px;
+            width: 15px;
+            height: 15px;
+            background: #4285f4;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-date {
+            background: #4285f4;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .risk-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .risk-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .risk-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .risk-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .risk-level {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .risk-level.medium {
+            background: #f39c12;
+        }
+        
+        .risk-level.low {
+            background: #2ecc71;
+        }
+        
+        .mitigation-item {
+            border-left-color: #2ecc71;
+        }
+        
+        .mitigation-item .risk-level {
+            background: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">🔥 RisenOne Fire Risk AI - Phase III Development Roadmap</div>
+            <div class="subtitle">Advanced ML Forecasting & Real-Time Weather Integration</div>
+            
+            <div class="status-bar">
+                <div class="status-item">Phase II: COMPLETE ✅</div>
+                <div class="status-item">4.86s Response Time ⚡</div>
+                <div class="status-item">277 Weather Stations 📊</div>
+                <div class="status-item">95% Reliability 🎯</div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('overview')">🎯 Overview</div>
+            <div class="tab" onclick="showTab('sprints')">🚀 Sprint Planning</div>
+            <div class="tab" onclick="showTab('architecture')">🏗️ Architecture</div>
+            <div class="tab" onclick="showTab('timeline')">📅 Timeline</div>
+            <div class="tab" onclick="showTab('risks')">⚠️ Risk Assessment</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="architecture-container">
+                <div class="architecture-title">🎯 Phase III Strategic Objectives</div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌡️</div>
+                        <div class="feature-title">Real-Time Weather</div>
+                        <div class="feature-desc">Integration with Weather.gov API and NASA FIRMS for live fire detection data with sub-5 minute update cycles</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-title">ML Forecasting</div>
+                        <div class="feature-desc">BigQuery ML models providing 7-day fire risk predictions with 85%+ accuracy validation</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Advanced Analytics</div>
+                        <div class="feature-desc">Geographic fire risk analysis, crew positioning optimization, and resource allocation algorithms</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-title">Production Scaling</div>
+                        <div class="feature-desc">System optimization supporting 100+ concurrent Forest Service users with sub-10 second response times</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🗺️</div>
+                        <div class="feature-title">Wildfire Boundaries</div>
+                        <div class="feature-desc">GACC boundary integration with real-time fire perimeter tracking and spread prediction modeling</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎛️</div>
+                        <div class="feature-title">Decision Support</div>
+                        <div class="feature-desc">Intelligent recommendations for fire crew deployment, evacuation planning, and resource prioritization</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metrics-container">
+                <div class="metric-card">
+                    <div class="metric-value">4.86s</div>
+                    <div class="metric-label">Current Response Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">277</div>
+                    <div class="metric-label">Weather Stations</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">95%</div>
+                    <div class="metric-label">System Reliability</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">12 weeks</div>
+                    <div class="metric-label">Phase III Timeline</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sprint Planning Tab -->
+        <div id="sprints" class="tab-content">
+            <div class="sprint-container">
+                <div class="sprint-card">
+                    <div class="sprint-header">
+                        <div class="sprint-title">🌡️ Sprint 1: Real-Time Foundation</div>
+                        <div class="sprint-duration">Weeks 1-3</div>
+                    </div>
+                    <div class="sprint-objective">Establish live weather data pipeline with Weather.gov API and NASA FIRMS integration</div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Weather.gov API Integration</div>
+                        <div class="deliverable-desc">Real-time NOAA weather feeds with 5-minute update cycles for all 277+ stations</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">NASA FIRMS Fire Detection</div>
+                        <div class="deliverable-desc">Active fire detection data with satellite imagery integration and real-time alerts</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Data Pipeline Optimization</div>
+                        <div class="deliverable-desc">Streaming data ingestion with Cloud Pub/Sub and BigQuery streaming inserts</div>
+                    </div>
+                </div>
+                
+                <div class="sprint-card">
+                    <div class="sprint-header">
+                        <div class="sprint-title">🤖 Sprint 2: ML Implementation</div>
+                        <div class="sprint-duration">Weeks 4-6</div>
+                    </div>
+                    <div class="sprint-objective">Deploy BigQuery ML models for fire risk prediction and historical pattern analysis</div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">BQML Fire Risk Models</div>
+                        <div class="deliverable-desc">Machine learning models trained on historical fire data with 85%+ accuracy validation</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">7-Day Forecasting</div>
+                        <div class="deliverable-desc">Multi-day fire danger predictions with confidence intervals and uncertainty analysis</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Pattern Recognition</div>
+                        <div class="deliverable-desc">Historical weather pattern analysis for seasonal fire risk prediction</div>
+                    </div>
+                </div>
+                
+                <div class="sprint-card">
+                    <div class="sprint-header">
+                        <div class="sprint-title">📊 Sprint 3: Advanced Analytics</div>
+                        <div class="sprint-duration">Weeks 7-9</div>
+                    </div>
+                    <div class="sprint-objective">Implement geographic analysis, crew positioning algorithms, and decision support tools</div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Geographic Fire Analysis</div>
+                        <div class="deliverable-desc">Multi-region fire risk comparison with topographic and vegetation factors</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Resource Allocation</div>
+                        <div class="deliverable-desc">Intelligent crew positioning recommendations based on risk probability and travel time</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">GACC Boundary Integration</div>
+                        <div class="deliverable-desc">Geographic Area Coordination Center boundaries with jurisdictional fire management</div>
+                    </div>
+                </div>
+                
+                <div class="sprint-card">
+                    <div class="sprint-header">
+                        <div class="sprint-title">⚡ Sprint 4: Production Enhancement</div>
+                        <div class="sprint-duration">Weeks 10-12</div>
+                    </div>
+                    <div class="sprint-objective">Scale system for 100+ concurrent users with advanced UI/UX and stakeholder demonstration</div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Concurrent User Scaling</div>
+                        <div class="deliverable-desc">Load balancing and performance optimization for 100+ simultaneous Forest Service users</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Advanced UI/UX</div>
+                        <div class="deliverable-desc">Interactive fire risk dashboard with mapping, alerts, and natural language queries</div>
+                    </div>
+                    
+                    <div class="deliverable">
+                        <div class="deliverable-title">Stakeholder Demo</div>
+                        <div class="deliverable-desc">Complete system demonstration with ROI analysis and production deployment plan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Tab -->
+        <div id="architecture" class="tab-content">
+            <div class="architecture-container">
+                <div class="architecture-title">🏗️ Phase III Technical Architecture</div>
+                
+                <div class="diagram-container">
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 30px; margin: 20px 0;">
+                        <!-- Architecture Layers -->
+                        <div style="display: grid; grid-template-rows: repeat(6, auto); gap: 25px;">
+                            
+                            <!-- Data Sources Layer -->
+                            <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-radius: 10px; padding: 20px; border-left: 5px solid #2196f3;">
+                                <div style="font-weight: bold; font-size: 16px; color: #1976d2; margin-bottom: 15px;">📊 Real-Time Data Sources</div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #2196f3;">
+                                        <div style="font-weight: bold; color: #1976d2;">Weather.gov API</div>
+                                        <div style="font-size: 12px; color: #666;">277+ Stations • 5-min updates</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">NASA FIRMS</div>
+                                        <div style="font-size: 12px; color: #666;">Fire Detection • Real-time</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #4caf50;">
+                                        <div style="font-weight: bold; color: #388e3c;">GACC Boundaries</div>
+                                        <div style="font-size: 12px; color: #666;">Jurisdictional Data</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">NOAA Forecasts</div>
+                                        <div style="font-size: 12px; color: #666;">7-day Weather</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flow Arrow -->
+                            <div style="text-align: center; font-size: 24px; color: #666;">⬇️</div>
+                            
+                            <!-- Streaming Pipeline Layer -->
+                            <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%); border-radius: 10px; padding: 20px; border-left: 5px solid #ff9800;">
+                                <div style="font-weight: bold; font-size: 16px; color: #f57c00; margin-bottom: 15px;">⚡ Google Cloud Streaming Pipeline</div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">Cloud Pub/Sub</div>
+                                        <div style="font-size: 12px; color: #666;">1000 messages/sec</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">Dataflow</div>
+                                        <div style="font-size: 12px; color: #666;">Stream Processing</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">BigQuery Streaming</div>
+                                        <div style="font-size: 12px; color: #666;">Sub-second ingestion</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">Cloud Storage</div>
+                                        <div style="font-size: 12px; color: #666;">Historical backup</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flow Arrow -->
+                            <div style="text-align: center; font-size: 24px; color: #666;">⬇️</div>
+                            
+                            <!-- ML Platform Layer -->
+                            <div style="background: linear-gradient(135deg, #e8f5e8 0%, #a5d6a7 100%); border-radius: 10px; padding: 20px; border-left: 5px solid #4caf50;">
+                                <div style="font-weight: bold; font-size: 16px; color: #388e3c; margin-bottom: 15px;">🤖 ML & Analytics Platform</div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #4caf50;">
+                                        <div style="font-weight: bold; color: #388e3c;">BigQuery ML</div>
+                                        <div style="font-size: 12px; color: #666;">ARIMA_PLUS Models</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #4caf50;">
+                                        <div style="font-weight: bold; color: #388e3c;">Vertex AI</div>
+                                        <div style="font-size: 12px; color: #666;">Custom Predictions</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #4caf50;">
+                                        <div style="font-weight: bold; color: #388e3c;">Earth Engine</div>
+                                        <div style="font-size: 12px; color: #666;">Satellite Analysis</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #4caf50;">
+                                        <div style="font-weight: bold; color: #388e3c;">AutoML Tables</div>
+                                        <div style="font-size: 12px; color: #666;">85%+ Accuracy</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flow Arrow -->
+                            <div style="text-align: center; font-size: 24px; color: #666;">⬇️</div>
+                            
+                            <!-- Agent System Layer -->
+                            <div style="background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%); border-radius: 10px; padding: 20px; border-left: 5px solid #3f51b5;">
+                                <div style="font-weight: bold; font-size: 16px; color: #303f9f; margin-bottom: 15px;">🧠 Enhanced Agent System (ID: 6609146802375491584)</div>
+                                
+                                <!-- Root Agent -->
+                                <div style="background: linear-gradient(135deg, #4285f4 0%, #1976d2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
+                                    <div style="font-weight: bold; font-size: 14px;">🤖 Root Fire Coordinator</div>
+                                    <div style="font-size: 12px; opacity: 0.9;">Query Routing • Session Management • 4.86s Response</div>
+                                </div>
+                                
+                                <!-- Sub-Agents Grid -->
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #2196f3;">
+                                        <div style="font-weight: bold; color: #1976d2;">Weather Agent</div>
+                                        <div style="font-size: 11px; color: #666;">Real-time Processing</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #f44336;">
+                                        <div style="font-weight: bold; color: #d32f2f;">Fire Risk Agent</div>
+                                        <div style="font-size: 11px; color: #666;">NFDRS Calculations</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">Analytics Agent</div>
+                                        <div style="font-size: 11px; color: #666;">ML Integration</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #009688;">
+                                        <div style="font-weight: bold; color: #00695c;">Database Agent</div>
+                                        <div style="font-size: 11px; color: #666;">Optimized Queries</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #ff9800;">
+                                        <div style="font-weight: bold; color: #f57c00;">Geographic Agent</div>
+                                        <div style="font-size: 11px; color: #666;">Spatial Analysis</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flow Arrow -->
+                            <div style="text-align: center; font-size: 24px; color: #666;">⬇️</div>
+                            
+                            <!-- Interface Layer -->
+                            <div style="background: linear-gradient(135deg, #f3e5f5 0%, #ce93d8 100%); border-radius: 10px; padding: 20px; border-left: 5px solid #9c27b0;">
+                                <div style="font-weight: bold; font-size: 16px; color: #7b1fa2; margin-bottom: 15px;">🖥️ Production Interface Layer</div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">Interactive Dashboard</div>
+                                        <div style="font-size: 12px; color: #666;">Real-time Fire Maps</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">Mobile App</div>
+                                        <div style="font-size: 12px; color: #666;">Field Operations</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">REST API</div>
+                                        <div style="font-size: 12px; color: #666;">AWS Integration</div>
+                                    </div>
+                                    <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #9c27b0;">
+                                        <div style="font-weight: bold; color: #7b1fa2;">Natural Language</div>
+                                        <div style="font-size: 12px; color: #666;">Voice Commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin-top: 20px;">
+                    <div style="font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;">🔧 Architecture Key Features</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #4285f4;">📊 Real-Time Processing</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 5-minute weather data updates</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 1000 messages/second via Pub/Sub</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 15px;">• Sub-second BigQuery ingestion</div>
+                            
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #34a853;">🤖 Enhanced AI Agents</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 6 specialized agent types</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 4.86s average response time</div>
+                            <div style="font-size: 14px; color: #666;">• Multi-agent coordination</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #ff9800;">🔮 ML Forecasting</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 7-day fire risk predictions</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 85%+ accuracy validation</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 15px;">• ARIMA_PLUS time series models</div>
+                            
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #673ab7;">⚡ Production Scale</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• 100+ concurrent users</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 5px;">• Auto-scaling infrastructure</div>
+                            <div style="font-size: 14px; color: #666;">• AWS-GCP hybrid integration</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #e3f2fd; border-radius: 8px; padding: 20px; margin-top: 20px; border-left: 4px solid #2196f3;">
+                    <div style="font-size: 16px; font-weight: bold; color: #1976d2; margin-bottom: 15px;">🌊 Data Flow Summary</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #1976d2;">📥 Data Ingestion</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">Weather.gov API → Pub/Sub</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">NASA FIRMS → Pub/Sub</div>
+                            <div style="font-size: 13px; color: #333;">GACC/NOAA → Storage</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #1976d2;">🔄 Processing</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">Dataflow → BigQuery</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">ML Models → Predictions</div>
+                            <div style="font-size: 13px; color: #333;">Agents → Analysis</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #1976d2;">📤 Output</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">Dashboard → Visual Maps</div>
+                            <div style="font-size: 13px; color: #333; margin-bottom: 3px;">Mobile → Field Access</div>
+                            <div style="font-size: 13px; color: #333;">API → AWS Integration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Tab -->
+        <div id="timeline" class="tab-content">
+            <div class="timeline-container">
+                <div class="architecture-title">📅 Phase III Development Timeline</div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">Week 1-3</div>
+                        <div class="timeline-title">🌡️ Real-Time Data Foundation</div>
+                        <div class="timeline-desc">Weather.gov API integration, NASA FIRMS setup, streaming data pipeline with Cloud Pub/Sub and BigQuery. Performance target: 5-minute data refresh cycles.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">Week 4-6</div>
+                        <div class="timeline-title">🤖 ML Model Implementation</div>
+                        <div class="timeline-desc">BigQuery ML fire risk models, 7-day forecasting capabilities, historical pattern analysis with 85%+ accuracy validation against known fire events.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">Week 7-9</div>
+                        <div class="timeline-title">📊 Advanced Analytics Engine</div>
+                        <div class="timeline-desc">Geographic fire risk analysis, crew positioning algorithms, GACC boundary integration, and resource allocation optimization tools.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">Week 10-12</div>
+                        <div class="timeline-title">⚡ Production Scaling & Demo</div>
+                        <div class="timeline-desc">100+ concurrent user optimization, advanced UI/UX implementation, final stakeholder demonstration with complete ROI analysis and deployment plan.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">Week 13+</div>
+                        <div class="timeline-title">🚀 Production Deployment</div>
+                        <div class="timeline-desc">Full Forest Service rollout, training programs, maintenance protocols, and continuous improvement based on user feedback and system performance.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Assessment Tab -->
+        <div id="risks" class="tab-content">
+            <div class="risk-matrix">
+                <div class="risk-section">
+                    <div class="risk-title">⚠️ Technical Risks</div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-name">Real-time data API limitations</div>
+                        <div class="risk-level">HIGH</div>
+                    </div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-name">ML model accuracy requirements</div>
+                        <div class="risk-level medium">MEDIUM</div>
+                    </div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-name">Concurrent user scaling</div>
+                        <div class="risk-level medium">MEDIUM</div>
+                    </div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-name">Data integration complexity</div>
+                        <div class="risk-level low">LOW</div>
+                    </div>
+                </div>
+                
+                <div class="risk-section">
+                    <div class="risk-title">✅ Mitigation Strategies</div>
+                    
+                    <div class="risk-item mitigation-item">
+                        <div class="risk-name">Multiple API fallbacks & caching</div>
+                        <div class="risk-level">ACTIVE</div>
+                    </div>
+                    
+                    <div class="risk-item mitigation-item">
+                        <div class="risk-name">Phased ML validation with experts</div>
+                        <div class="risk-level">PLANNED</div>
+                    </div>
+                    
+                    <div class="risk-item mitigation-item">
+                        <div class="risk-name">Load testing & auto-scaling</div>
+                        <div class="risk-level">PLANNED</div>
+                    </div>
+                    
+                    <div class="risk-item mitigation-item">
+                        <div class="risk-name">Proven ADK architecture base</div>
+                        <div class="risk-level">ACTIVE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#4285f4',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#1a73e8',
+                lineColor: '#5a5a5a',
+                secondaryColor: '#f5f5f5',
+                tertiaryColor: '#fff'
+            }
+        });
+    </script>
+</body>
+</html>

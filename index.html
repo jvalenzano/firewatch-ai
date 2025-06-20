@@ -2,31 +2,323 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=docs/architecture/interactive/risenone_architecture.html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RisenOne Fire Analysis Agent - Redirecting...</title>
+    <title>RisenOne Fire Analysis Agent - AI-Powered Wildfire Risk Assessment</title>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
-            text-align: center; 
-            margin-top: 100px; 
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --dark-color: #2C3E50;
+            --light-color: #F8F9FA;
+            --warning-color: #FFD93D;
+            --danger-color: #FF4757;
+            --success-color: #52C41A;
         }
-        .spinner { 
-            border: 4px solid #f3f3f3; 
-            border-top: 4px solid #667eea; 
-            border-radius: 50%; 
-            width: 40px; 
-            height: 40px; 
-            animation: spin 1s linear infinite; 
-            margin: 20px auto; 
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--danger-color) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .status-badges {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Navigation Cards */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--danger-color));
+        }
+
+        .nav-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .nav-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .nav-card .link-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .features h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .quick-links h3 {
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .links-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 60px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-badges {
+                padding: 0 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>🔥 RisenOne Fire Analysis Agent</h1>
-    <div class="spinner"></div>
-    <p>Redirecting to architecture documentation...</p>
-    <p><a href="docs/architecture/interactive/risenone_architecture.html">Click here if you're not redirected automatically</a></p>
+    <header class="header">
+        <h1>🔥 RisenOne Fire Analysis Agent</h1>
+        <p>AI-Powered Wildfire Risk Assessment & Fire Danger Calculations</p>
+        <div class="status-badges">
+            <span class="badge">✅ Phase III Complete</span>
+            <span class="badge">🚀 Production Ready</span>
+            <span class="badge">⚡ 95.5% Reliability</span>
+            <span class="badge">🎯 <1s Response Time</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation Cards -->
+        <div class="nav-grid">
+            <a href="interactive/risenone_architecture.html" class="nav-card">
+                <h3>🏗️ System Architecture</h3>
+                <p>Interactive visualization of our multi-agent architecture, showing how AI agents coordinate for fire risk analysis and weather integration.</p>
+                <span class="link-text">Explore Architecture →</span>
+            </a>
+
+            <a href="reports/phase_iii_roadmap.html" class="nav-card">
+                <h3>📋 Phase III Roadmap</h3>
+                <p>Development timeline, sprint progress, and feature implementation status for voice integration and visual enhancements.</p>
+                <span class="link-text">View Roadmap →</span>
+            </a>
+
+            <a href="interactive/demo.html" class="nav-card">
+                <h3>🎮 Live Demo</h3>
+                <p>Try the RisenOne agent in action. Calculate fire danger ratings, analyze weather conditions, and see real-time predictions.</p>
+                <span class="link-text">Launch Demo →</span>
+            </a>
+
+            <a href="https://github.com/javalenzano/risen-one-science-research-agent" class="nav-card">
+                <h3>💻 GitHub Repository</h3>
+                <p>Access the source code, contribute to development, and explore our Agent Development Kit (ADK) implementation.</p>
+                <span class="link-text">View on GitHub →</span>
+            </a>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <h2>Core Capabilities</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🌡️</div>
+                    <h4>Real-Time Weather</h4>
+                    <p>21+ validated weather stations across western US with 0.17s response time</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h4>NFDRS Calculations</h4>
+                    <p>Full National Fire Danger Rating System compliance with 622K calc/sec performance</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <h4>AI Multi-Agent System</h4>
+                    <p>Coordinated agents for weather, fire detection, and predictive analytics</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📈</div>
+                    <h4>Visual Intelligence</h4>
+                    <p>ASCII gauges, risk indicators, and professional briefing formats</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h3>Documentation & Resources</h3>
+            <div class="links-row">
+                <a href="docs/architecture/technical-specification-v3.md" class="quick-link">Technical Spec</a>
+                <a href="docs/testing/PHASE-III-VALIDATION-TESTING.MD" class="quick-link">Test Plan</a>
+                <a href="agent/STATION_FORMAT_GUIDE.md" class="quick-link">Station Guide</a>
+                <a href="docs/architecture/adr/" class="quick-link">Architecture Decisions</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>RisenOne Fire Analysis Agent © 2025 | Built with Google Cloud AI & Agent Development Kit v1.0.0</p>
+        <p>A production-ready AI system for the Forest Service</p>
+    </footer>
 </body>
 </html>

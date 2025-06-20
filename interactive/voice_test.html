@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RisenOne Voice Integration Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h2 {
+            color: #ffd93d;
+            font-size: 1.2em;
+            margin-top: 0;
+        }
+        
+        .compatibility-check {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .check-label {
+            font-weight: bold;
+        }
+        
+        .check-status {
+            font-family: monospace;
+        }
+        
+        .pass { color: #4ecdc4; }
+        .fail { color: #ff6b6b; }
+        .warning { color: #ffd93d; }
+        
+        #voice-mic-button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        
+        #voice-mic-button:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+        
+        #voice-mic-button.recording {
+            background: #4ecdc4;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(78, 205, 196, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+        }
+        
+        .recording-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        #alert-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 350px;
+            z-index: 1000;
+        }
+        
+        .fire-alert {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            animation: alertSlideIn 0.5s ease;
+        }
+        
+        .fire-alert.extreme { border-color: #ff0000; }
+        .fire-alert.high { border-color: #ff6b6b; }
+        .fire-alert.moderate { border-color: #ffd93d; }
+        .fire-alert.low { border-color: #4ecdc4; }
+        
+        @keyframes alertSlideIn {
+            from { 
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to { 
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .alert-icon {
+            font-size: 1.5em;
+        }
+        
+        #response-container {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            margin-top: 20px;
+        }
+        
+        .keyboard-test {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .keyboard-shortcut {
+            background: #3a3a3a;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .shortcut-key {
+            font-family: monospace;
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .shortcut-status {
+            width: 10px;
+            height: 10px;
+            background: #666;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .shortcut-status.active {
+            background: #4ecdc4;
+        }
+        
+        .log-output {
+            background: #1a1a1a;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9em;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            color: #999;
+        }
+        
+        .log-entry.error { color: #ff6b6b; }
+        .log-entry.success { color: #4ecdc4; }
+        .log-entry.warning { color: #ffd93d; }
+        
+        .emergency-stopped body {
+            animation: emergencyFlash 0.5s ease;
+        }
+        
+        @keyframes emergencyFlash {
+            0%, 100% { background: #1a1a1a; }
+            50% { background: #ff0000; }
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .test-button {
+            background: #3a3a3a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #4a4a4a;
+        }
+        
+        .compatibility-warning {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .audio-muted .fire-alert {
+            opacity: 0.5;
+        }
+        
+        .response-updated {
+            animation: responseFlash 0.5s ease;
+        }
+        
+        @keyframes responseFlash {
+            0%, 100% { background: #2a2a2a; }
+            50% { background: #3a3a3a; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 RisenOne Voice Integration Test</h1>
+        
+        <!-- Compatibility Check Section -->
+        <div class="test-section">
+            <h2>Browser Compatibility</h2>
+            <div id="compatibility-results">
+                <p>Checking browser capabilities...</p>
+            </div>
+        </div>
+        
+        <!-- Voice Recording Test -->
+        <div class="test-section">
+            <h2>Voice Recording (Push-to-Talk)</h2>
+            <p>Hold the microphone button to record a voice query:</p>
+            <button id="voice-mic-button">🎤</button>
+            <div id="recording-status"></div>
+        </div>
+        
+        <!-- Keyboard Shortcuts Test -->
+        <div class="test-section">
+            <h2>Keyboard Shortcuts</h2>
+            <div class="keyboard-test">
+                <div class="keyboard-shortcut">
+                    <span><span class="shortcut-key">ESC</span> Emergency Stop</span>
+                    <span class="shortcut-status" id="shortcut-esc"></span>
+                </div>
+                <div class="keyboard-shortcut">
+                    <span><span class="shortcut-key">Ctrl+Shift+A</span> Manual Alert</span>
+                    <span class="shortcut-status" id="shortcut-alert"></span>
+                </div>
+                <div class="keyboard-shortcut">
+                    <span><span class="shortcut-key">Ctrl+Shift+M</span> Toggle Mute</span>
+                    <span class="shortcut-status" id="shortcut-mute"></span>
+                </div>
+                <div class="keyboard-shortcut">
+                    <span><span class="shortcut-key">Ctrl+Shift+P</span> Pause Demo</span>
+                    <span class="shortcut-status" id="shortcut-pause"></span>
+                </div>
+                <div class="keyboard-shortcut">
+                    <span><span class="shortcut-key">Ctrl+Shift+S</span> Skip Step</span>
+                    <span class="shortcut-status" id="shortcut-skip"></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <div class="test-controls">
+                <button class="test-button" onclick="testAlert('EXTREME')">Test Extreme Alert</button>
+                <button class="test-button" onclick="testAlert('HIGH')">Test High Alert</button>
+                <button class="test-button" onclick="testAcknowledgment()">Test Acknowledgment</button>
+                <button class="test-button" onclick="testEmergencyStop()">Test Emergency Stop</button>
+                <button class="test-button" onclick="clearLog()">Clear Log</button>
+            </div>
+        </div>
+        
+        <!-- Response Container -->
+        <div id="response-container">
+            <h3>Voice Query Response</h3>
+            <p>Responses will appear here...</p>
+        </div>
+        
+        <!-- Alert Container -->
+        <div id="alert-container"></div>
+        
+        <!-- Debug Log -->
+        <div class="test-section">
+            <h2>Debug Log</h2>
+            <div class="log-output" id="debug-log"></div>
+        </div>
+    </div>
+    
+    <!-- Include voice integration script -->
+    <script src="js/voice_integration.js"></script>
+    
+    <!-- Test script -->
+    <script>
+        // Initialize after voice integration loads
+        window.addEventListener('load', function() {
+            // Check if voice integration loaded
+            if (typeof window.voiceIntegration === 'undefined') {
+                addLog('ERROR: Voice integration script not loaded!', 'error');
+                return;
+            }
+            
+            addLog('Voice integration loaded successfully', 'success');
+            
+            // Run compatibility check
+            checkCompatibility();
+            
+            // Monitor keyboard shortcuts
+            monitorShortcuts();
+        });
+        
+        function checkCompatibility() {
+            const compat = window.voiceIntegration.compatibility;
+            const results = document.getElementById('compatibility-results');
+            
+            let html = '';
+            
+            // Check each capability
+            const checks = [
+                { name: 'MediaRecorder API', value: compat.mediaRecorder },
+                { name: 'getUserMedia', value: compat.getUserMedia },
+                { name: 'Audio Context', value: compat.audioContext },
+                { name: 'Web Speech API', value: compat.webSpeechAPI },
+                { name: 'Browser', value: compat.browser }
+            ];
+            
+            checks.forEach(check => {
+                const status = check.value === true ? 'pass' : 
+                              check.value === false ? 'fail' : 
+                              'warning';
+                const statusText = check.value === true ? '✓ Supported' : 
+                                  check.value === false ? '✗ Not Supported' : 
+                                  check.value;
+                
+                html += `
+                    <div class="compatibility-check">
+                        <div class="check-label">${check.name}:</div>
+                        <div class="check-status ${status}">${statusText}</div>
+                    </div>
+                `;
+            });
+            
+            results.innerHTML = html;
+            
+            // Log compatibility
+            addLog(`Browser: ${compat.browser}`, 'info');
+            if (!compat.mediaRecorder || !compat.getUserMedia) {
+                addLog('Voice recording not fully supported!', 'error');
+            }
+        }
+        
+        function monitorShortcuts() {
+            // Flash indicator when shortcut is pressed
+            document.addEventListener('keydown', (e) => {
+                const indicators = {
+                    'Escape': 'shortcut-esc',
+                    'a': e.ctrlKey && e.shiftKey ? 'shortcut-alert' : null,
+                    'm': e.ctrlKey && e.shiftKey ? 'shortcut-mute' : null,
+                    'p': e.ctrlKey && e.shiftKey ? 'shortcut-pause' : null,
+                    's': e.ctrlKey && e.shiftKey ? 'shortcut-skip' : null
+                };
+                
+                const indicatorId = indicators[e.key] || indicators[e.key.toLowerCase()];
+                if (indicatorId) {
+                    const indicator = document.getElementById(indicatorId);
+                    if (indicator) {
+                        indicator.classList.add('active');
+                        setTimeout(() => indicator.classList.remove('active'), 300);
+                    }
+                    
+                    addLog(`Keyboard shortcut triggered: ${e.key}`, 'success');
+                }
+            });
+        }
+        
+        function testAlert(severity) {
+            const alertData = {
+                severity: severity,
+                message: `Test ${severity} fire alert - Northern California experiencing extreme conditions`,
+                region: 'Northern California',
+                fire_index: severity === 'EXTREME' ? 9.5 : 7.2
+            };
+            
+            window.voiceIntegration.showAlert(alertData);
+            addLog(`Triggered ${severity} alert`, 'warning');
+        }
+        
+        function testAcknowledgment() {
+            window.voiceIntegration.showAcknowledgment('Processing your fire weather query...');
+            addLog('Showed acknowledgment', 'success');
+        }
+        
+        function testEmergencyStop() {
+            window.voiceIntegration.emergencyStop();
+            addLog('EMERGENCY STOP ACTIVATED', 'error');
+        }
+        
+        function addLog(message, type = 'info') {
+            const log = document.getElementById('debug-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            entry.textContent = `[${timestamp}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('debug-log').innerHTML = '';
+            addLog('Log cleared', 'info');
+        }
+        
+        // Override fetch for testing without backend
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            addLog(`API call: ${url}`, 'info');
+            
+            // Mock responses for testing
+            if (url.includes('/api/voice')) {
+                if (url.includes('/query')) {
+                    // Mock voice query response
+                    return Promise.resolve({
+                        ok: true,
+                        status: 200,
+                        body: {
+                            getReader: () => ({
+                                read: () => Promise.resolve({
+                                    done: true,
+                                    value: new TextEncoder().encode(JSON.stringify({
+                                        type: 'response',
+                                        text: 'Mock response',
+                                        visual: '<div>Fire conditions: EXTREME</div>'
+                                    }))
+                                })
+                            })
+                        }
+                    });
+                } else if (url.includes('/compatibility')) {
+                    // Mock compatibility report
+                    return Promise.resolve({
+                        ok: true,
+                        status: 200,
+                        json: () => Promise.resolve({ status: 'received' })
+                    });
+                }
+            }
+            
+            // Fall back to original fetch
+            return originalFetch.apply(this, arguments);
+        };
+    </script>
+</body>
+</html>
