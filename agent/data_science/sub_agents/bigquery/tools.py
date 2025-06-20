@@ -20,6 +20,7 @@ import os
 import re
 
 from data_science.utils.utils import get_env_var
+from data_science.visual_formatter import visual_formatter
 from google.adk.tools import ToolContext
 from google.cloud import bigquery
 from google.genai import Client
@@ -360,31 +361,8 @@ def run_bigquery_validation(
             final_result["query_result"] = rows
             tool_context.state["query_result"] = rows
             
-            # FINAL FIX: Format user-friendly response for fire data queries
-            if rows:
-                # Check for specific fire data query patterns
-                if len(rows) == 1 and 'count' in str(rows[0]).lower():
-                    # Single count query (like weather stations)
-                    count_value = list(rows[0].values())[0]
-                    if 'station' in sql_string.lower():
-                        final_result["user_response"] = f"There are {count_value} weather stations with fire data available for analysis."
-                    else:
-                        final_result["user_response"] = f"Query result: {count_value}"
-                elif len(rows) <= 10:
-                    # Small result set - format nicely
-                    final_result["user_response"] = f"Query completed successfully. Found {len(rows)} results:\n\n"
-                    for i, row in enumerate(rows[:5], 1):  # Show first 5 rows
-                        final_result["user_response"] += f"Row {i}: {row}\n"
-                    if len(rows) > 5:
-                        final_result["user_response"] += f"\n... and {len(rows) - 5} more rows."
-                else:
-                    # Large result set - summarize
-                    final_result["user_response"] = f"Query completed successfully. Found {len(rows)} records. First few results:\n\n"
-                    for i, row in enumerate(rows[:3], 1):
-                        final_result["user_response"] += f"Row {i}: {row}\n"
-                    final_result["user_response"] += f"\n... and {len(rows) - 3} more rows available."
-            else:
-                final_result["user_response"] = "Query executed successfully but returned no results."
+            # Use visual formatter for user-friendly responses
+            final_result["user_response"] = visual_formatter.format_database_results(rows, sql_string)
 
         else:
             final_result["error_message"] = (

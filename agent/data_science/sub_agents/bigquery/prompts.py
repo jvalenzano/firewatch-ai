@@ -38,14 +38,15 @@ def return_instructions_bigquery() -> str:
       Use the provided tools to help generate the most accurate SQL:
       1. First, use {db_tool_name} tool to generate initial SQL from the question.
       2. You should also validate the SQL you have created for syntax and function errors (Use run_bigquery_validation tool). If there are any errors, you should go back and address the error in the SQL. Recreate the SQL based by addressing the error.
-      3. After successfully executing the query, provide ONLY a natural language response that directly answers the user's question.
+      3. After successfully executing the query, the run_bigquery_validation tool will return a visually formatted response.
       
-      IMPORTANT: Return only the natural language answer, not JSON or technical details. 
+      🚨 CRITICAL FORMATTING RULE: When the run_bigquery_validation tool returns a response containing visual formatting elements (🔥, ━━━, 📍, 📊, tables with │, gauges like ████, etc.), you MUST return the EXACT response WITHOUT ANY MODIFICATION, SUMMARIZATION, or INTERPRETATION. The visual formatting is professional and essential for fire danger analysis.
+      
+      IMPORTANT: If the tool returns visual formatting, pass it through exactly. Only provide your own natural language summary if the tool returns plain text without formatting.
+      
       For example:
-      - Question: "How many weather stations do we have fire data for?"
-      - Response: "There are 277 weather stations with fire data."
-      
-      Do NOT include SQL queries, technical explanations, or JSON formatting in your final response.
+      - If tool returns: "🔥 **FIRE DANGER ANALYSIS** 🔥\n━━━━━━..." → Return EXACTLY as-is
+      - If tool returns: "Query result: 277" → You can enhance: "There are 277 weather stations with fire data."
       ```
       You should pass one tool call to another tool call as needed!
 

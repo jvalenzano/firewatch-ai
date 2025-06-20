@@ -7,6 +7,19 @@
 
 ---
 
+===============================================================
+
+# 📝 Next Documentation Priorities:
+Now that structure is perfect, you can focus on content:
+
+1 Complete the technical specification with PlantUML diagrams
+2 Write ADR-002 for the sequential pattern decision
+3 Create API documentation as you build endpoints
+4 Fill in user guides with real examples
+5 Document deployment procedures
+
+===============================================================
+
 ## Background and Motivation
 The POC is at risk: while infrastructure and data pipelines are solid, the core fire science features are non-functional due to a critical breakdown in database_agent communication. Documentation overstated actual capabilities. Immediate focus is required to restore basic fire data access and implement foundational fire science calculations (NFDRS). This is essential for any demo, client value, or further development.
 
